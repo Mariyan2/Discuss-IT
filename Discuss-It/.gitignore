@@ -1,0 +1,44 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# backend is currently being built
+/Discuss-It/debate-backend
+
+# production
+/build
+/target
+
+# IDEs
+.idea/
+.vscode/
+
+# misc
+.DS_Store
+.env
+.env.*
+*.tmp
+*.bak
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Spring Boot
+application.properties
+application.yml
+
+# macOS
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+desktop.ini
+
+
