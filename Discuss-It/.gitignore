@@ -9,7 +9,7 @@
 /coverage
 
 # backend is currently being built
-/Discuss-It/debate-backend
+/debate-backend
 
 # production
 /build
@@ -20,7 +20,7 @@
 .vscode/
 
 # misc
-.DS_Store
+.iscuss-It/DS_Store
 .env
 .env.*
 *.tmp
