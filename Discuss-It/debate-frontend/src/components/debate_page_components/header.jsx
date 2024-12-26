@@ -2,7 +2,7 @@ import React from "react";
 
 const Header = ({ title }) => {
   return (
-    <div>
+    <div style={{ font:'bold'}}>
       <h1>{title}</h1>
     </div>
   );
