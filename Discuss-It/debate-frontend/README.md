@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -69,9 +68,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-=======
-Discuss.it
-
-"Discuss it" is an online platform that allows users to discuss with eachother whilst having viewers agree or disagree with them.
-The discussion also has several features in it, such as live transcriptions to allow for people that don't speak the same language to talk to eachother.
->>>>>>> 15aef644d76edcc05ecf9b70c5613dc0f4edb285
