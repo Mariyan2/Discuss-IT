@@ -6,6 +6,15 @@ const Viewers = () => {
     { id: 1, name: "John Doe" },
     { id: 2, name: "Jane Smith" },
     { id: 3, name: "User123" },
+    { id: 4, name: "John Doe" },
+    { id: 5, name: "Jane Smith" },
+    { id: 6, name: "User123" },
+    { id: 7, name: "John Doe" },
+    { id: 8, name: "Jane Smith" },
+    { id: 9, name: "User123" },
+    { id: 10, name: "John Doe" },
+    { id: 11, name: "Jane Smith" },
+    { id: 12, name: "User123" },
   ];
 
   return (
