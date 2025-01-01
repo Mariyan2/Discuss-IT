@@ -1,5 +1,5 @@
 import React from "react";
-import { FaThumbsUp, FaThumbsDown, FaMicrophone, FaMicrophoneSlash, FaShare, FaVideo, FaVideoSlash } from "react-icons/fa";
+import { FaThumbsUp, FaThumbsDown, FaMicrophone, FaShare, FaVideo } from "react-icons/fa";
 
 const Handles = () => {
   return (
