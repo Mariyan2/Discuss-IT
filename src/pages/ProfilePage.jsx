@@ -1,9 +1,20 @@
 import React from "react";
-
-//for the time being we will use a placeholder profile page, the finished product will hold a dynamic value that directs us to a speicific profile
+import { Link } from "react-router-dom";
+//placeholder page for now
 function ProfilePage() {
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 p-6">
+
+<div className="absolute top-4 left-4">
+  <Link to="/">
+    <img
+      src={require("../images/thumbnail.png")}
+      alt="Home"
+      style={{ width: '146px', height: '126px' }} 
+      className="cursor-pointer"
+    />
+  </Link>
+</div>
 
 
       <div className="w-full md:w-1/3 flex flex-col items-center bg-white shadow-md p-4 rounded-lg">
@@ -23,7 +34,7 @@ function ProfilePage() {
       <div className="w-full md:w-2/3 mt-6 md:mt-0 md:ml-4 bg-white shadow-md p-4 rounded-lg">
         <h2 className="text-2xl font-bold mb-4">History</h2>
         <div className="space-y-4">
-{/*  placeholder comments  */}
+
           <div className="p-4 bg-gray-200 rounded-lg shadow-sm">
             Do fiscal deficits matter?
           </div>

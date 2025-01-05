@@ -11,6 +11,16 @@ const Home = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen p-8">
+            <div className="absolute top-4 left-4">
+        <Link to="/">
+          <img
+            src={require("../images/thumbnail.png")}
+            alt="Home"
+            style={{ width: '146px', height: '126px' }} 
+            className="cursor-pointer"
+          />
+        </Link>
+            </div>
 
       <header className="flex items-center justify-between mb-8">
         <div className="flex items-center space-x-4">

@@ -15,13 +15,14 @@ const Debate = () => {
 
       <div className="p-4">
       <div className="absolute top-4 left-4">
-        <Link to="/">
-        <img
-      src={require("../images/thumbnail.png")} 
+  <Link to="/">
+    <img
+      src={require("../images/thumbnail.png")}
       alt="Home"
-      className="w-40 h-50 cursor-pointer"
+      style={{ width: '146px', height: '126px' }} 
+      className="cursor-pointer"
     />
-        </Link>
+  </Link>
       </div>
         <Header title="What are the economic implications of our high deficit?" />
       </div>
