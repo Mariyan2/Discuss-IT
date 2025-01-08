@@ -37,3 +37,6 @@ application.yml
 # Windows
 Thumbs.db
 desktop.ini
+
+# Log files
+*.log
