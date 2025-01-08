@@ -1,7 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
-// the topics for now are added manually instead of taken from the database, as the backend will be set-up soon.
+// The topics for now are added manually instead of taken from the database, as the backend will be set up soon.
 const Home = () => {
   const topics = [
     { category: "politics", title: "What's happening in Argentina?", viewers: 355 },
@@ -11,21 +10,18 @@ const Home = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen p-8">
-            <div className="absolute top-4 left-4">
-        <Link to="/">
-          <img
-            src={require("../images/thumbnail.png")}
-            alt="Home"
-            style={{ width: '146px', height: '126px' }} 
-            className="cursor-pointer"
-          />
-        </Link>
-            </div>
+      <div className="absolute top-4 left-4">
+        <img
+          src={require("../images/thumbnail.png")}
+          alt="Home"
+          style={{ width: "146px", height: "126px" }}
+          className="cursor-pointer"
+          onClick={() => (window.location.href = "http://localhost:3000/")}
+        />
+      </div>
 
       <header className="flex items-center justify-between mb-8">
-        <div className="flex items-center space-x-4">
-    
-        </div>
+        <div className="flex items-center space-x-4"></div>
         <input
           type="text"
           placeholder="Search Bar"
@@ -47,7 +43,8 @@ const Home = () => {
           {topics.map((topic, index) => (
             <div
               key={index}
-              className="bg-white p-4 shadow rounded hover:shadow-lg transition"
+              onClick={() => (window.location.href = "http://localhost:3000/discussion")}
+              className="cursor-pointer bg-white p-4 shadow rounded hover:shadow-lg transition"
             >
               <div className="text-sm text-gray-500 mb-2">{topic.category}</div>
               <h3 className="text-lg font-bold mb-2">{topic.title}</h3>
@@ -56,15 +53,6 @@ const Home = () => {
           ))}
         </div>
       </section>
-
-      <footer className="mt-8 text-center">
-        <Link
-          to="/discussion"
-          className="px-6 py-3 bg-blue-600 text-white rounded shadow-md hover:bg-blue-700"
-        >
-          Go to Debate Page
-        </Link>
-      </footer>
     </div>
   );
 };
