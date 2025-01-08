@@ -31,12 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-# Ignore compiled classes
-/target/
-
-# Ignore logs
-*.log
-
-# Ignore sensitive files
-src/main/resources/application.properties
