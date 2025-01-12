@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-// The topics for now are added manually instead of taken from the database, as the backend will be set up soon.
 const Home = () => {
-  const topics = [
-    { category: "politics", title: "What's happening in Argentina?", viewers: 355 },
-    { category: "gaming", title: "Q & A + League of Legends", viewers: 23 },
-    { category: "film", title: "2024 movie release lineup", viewers: 211 },
-  ];
+  const [topics, setTopics] = useState([]); // State to store topics from the backend
+
+  // Fetch discussions from the backend
+  useEffect(() => {
+    fetch("/api/discussions") // Use relative URL; proxy in package.json will route this
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Fetched discussions:", data); // Log the data for debugging
+        setTopics(data); // Update the topics state with the fetched data
+      })
+      .catch((error) => console.error("Error fetching discussions:", error));
+  }, []);
 
   return (
     <div className="bg-gray-100 min-h-screen p-8">
@@ -16,7 +27,7 @@ const Home = () => {
           alt="Home"
           style={{ width: "146px", height: "126px" }}
           className="cursor-pointer"
-          onClick={() => (window.location.href = "http://localhost:3000/")}
+          onClick={() => (window.location.href = "/")}
         />
       </div>
 
@@ -39,19 +50,22 @@ const Home = () => {
       </section>
 
       <section>
-        <div className="grid grid-cols-3 gap-4">
-          {topics.map((topic, index) => (
-            <div
-              key={index}
-              onClick={() => (window.location.href = "http://localhost:3000/discussion")}
-              className="cursor-pointer bg-white p-4 shadow rounded hover:shadow-lg transition"
-            >
-              <div className="text-sm text-gray-500 mb-2">{topic.category}</div>
-              <h3 className="text-lg font-bold mb-2">{topic.title}</h3>
-              <div className="text-sm text-gray-500">{topic.viewers} viewers</div>
-            </div>
-          ))}
-        </div>
+        {topics.length === 0 ? (
+          <p className="text-center text-gray-500">No discussions available.</p>
+        ) : (
+          <div className="grid grid-cols-3 gap-4">
+            {topics.map((topic, index) => (
+              <div
+                key={index}
+                onClick={() => (window.location.href = "/discussion")}
+                className="cursor-pointer bg-white p-4 shadow rounded hover:shadow-lg transition"
+              >
+                <div className="text-sm text-gray-500 mb-2">{topic.category}</div>
+                <h3 className="text-lg font-bold">{topic.topic}</h3>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );
