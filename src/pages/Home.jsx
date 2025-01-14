@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [topics, setTopics] = useState([]); // State to store topics from the backend
@@ -12,23 +13,21 @@ const Home = () => {
         }
         return response.json();
       })
-      .then((data) => {
-        console.log("Fetched discussions:", data); // Log the data for debugging
-        setTopics(data); // Update the topics state with the fetched data
-      })
+      .then((data) => setTopics(data)) // Update the topics state with the fetched data
       .catch((error) => console.error("Error fetching discussions:", error));
   }, []);
 
   return (
     <div className="bg-gray-100 min-h-screen p-8">
       <div className="absolute top-4 left-4">
-        <img
-          src={require("../images/thumbnail.png")}
-          alt="Home"
-          style={{ width: "146px", height: "126px" }}
-          className="cursor-pointer"
-          onClick={() => (window.location.href = "/")}
-        />
+        <Link to="/">
+          <img
+            src={require("../images/thumbnail.png")}
+            alt="Home"
+            style={{ width: "146px", height: "126px" }}
+            className="cursor-pointer"
+          />
+        </Link>
       </div>
 
       <header className="flex items-center justify-between mb-8">
@@ -54,15 +53,15 @@ const Home = () => {
           <p className="text-center text-gray-500">No discussions available.</p>
         ) : (
           <div className="grid grid-cols-3 gap-4">
-            {topics.map((topic, index) => (
-              <div
-                key={index}
-                onClick={() => (window.location.href = "/discussion")}
+            {topics.map((topic) => (
+              <Link
+                key={topic.id}
+                to={`/discussion/${topic.id}`}
                 className="cursor-pointer bg-white p-4 shadow rounded hover:shadow-lg transition"
               >
                 <div className="text-sm text-gray-500 mb-2">{topic.category}</div>
                 <h3 className="text-lg font-bold">{topic.topic}</h3>
-              </div>
+              </Link>
             ))}
           </div>
         )}
