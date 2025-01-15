@@ -4,15 +4,17 @@ import Home from "./pages/Home";
 import Discussion from "./pages/DiscussionPage";
 import NotFound from "./pages/NotFound";
 import ProfilePage from "./pages/ProfilePage";
+import AuthPopup from "./components/debate_page_components/AuthPopup"; 
 import "./index.css";
 
 function App() {
   return (
     <Router>
       <div className="flex flex-col min-h-screen bg-gray-100">
+        <AuthPopup />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/discussion/:discussionId" element={<Discussion />} /> 
+          <Route path="/discussion/:discussionId" element={<Discussion />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/profilePage" element={<ProfilePage />} />
         </Routes>
