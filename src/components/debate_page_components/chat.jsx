@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const ChatApp = ({ discussionId, chatMessages }) => {
   const [messages, setMessages] = useState(chatMessages);
   const [newMessage, setNewMessage] = useState("");
 
+  const chatContainerRef = useRef(null);
+
   const handleSend = () => {
     if (newMessage.trim() !== "") {
       const message = {
-        user_id: "samepleUserID", 
+        user_id: "sampleUserID",
         message: newMessage,
       };
       fetch(`/api/discussions/${discussionId}/chat`, {
@@ -34,18 +36,29 @@ const ChatApp = ({ discussionId, chatMessages }) => {
     }
   };
 
+  useEffect(() => {
+    // Scroll to the bottom of the chat container whenever messages change
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
     <div className="h-full bg-gray-100 p-4 shadow-lg">
       <h1 className="text-lg font-bold mb-4">Chat</h1>
-      <div className="flex flex-col h-5/6 overflow-y-auto border border-gray-300 p-2 rounded mb-2">
-  {messages.map((msg, index) => (
-    <div key={index} className="p-2 bg-gray-200 rounded mb-1">
-      <p>
-        <strong>{msg.user_id || "Unknown"}:</strong> {msg.message || ":"}
-      </p>
-    </div>
-  ))}
-</div>
+      <div
+        ref={chatContainerRef}
+        className="flex flex-col overflow-y-auto border border-gray-300 p-2 rounded mb-2"
+        style={{ height: "697px" }}
+      >
+        {messages.map((msg, index) => (
+          <div key={index} className="p-2 bg-gray-200 rounded mb-1">
+            <p>
+              <strong>{msg.user_id || "Unknown"}:</strong> {msg.message || ":"}
+            </p>
+          </div>
+        ))}
+      </div>
 
       <div className="flex items-center space-x-2">
         <input
