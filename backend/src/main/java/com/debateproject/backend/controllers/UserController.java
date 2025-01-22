@@ -27,7 +27,6 @@ public class UserController {
         userRepository.save(user);
         return ResponseEntity.ok("User registered successfully");
     }
-
     // Login a user
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody Map<String, String> loginDetails) {
@@ -43,6 +42,18 @@ public class UserController {
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Invalid username or password"));
+        }
+    }
+    //gets the username so that we can direct to a specific profile page
+    @GetMapping("/profile/{username}")
+    public ResponseEntity<User> getUserProfile(@PathVariable String username) {
+        Optional<User> user = userRepository.findByUserName(username);
+        if (user.isPresent()) {
+            System.out.println("User found: " + user.get());
+            return ResponseEntity.ok(user.get());
+        } else {
+            System.out.println("User not found for username: " + username);
+            return ResponseEntity.notFound().build();
         }
     }
 
