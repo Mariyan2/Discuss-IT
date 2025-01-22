@@ -28,7 +28,7 @@ function ProfilePage() {
           <img
             src={require("../images/thumbnail.png")}
             alt="Home"
-            style={{ width: "146px", height: "126px" }}
+            style={{ width: "200px", height: "176px"}}
             className="cursor-pointer"
           />
         </Link>

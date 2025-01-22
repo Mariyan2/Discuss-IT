@@ -19,24 +19,22 @@ const Home = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen p-8">
-      <div className="absolute top-4 left-4">
-        <Link to="/">
+      <header className="flex items-center justify-between mb-8">
+        {/* Thumbnail */}
+        <Link to="/" className="flex-shrink-0">
           <img
             src={require("../images/thumbnail.png")}
             alt="Home"
-            style={{ width: "296px", height: "276px" }}
+            style={{ width: "200px", height: "176px" }}
             className="cursor-pointer"
           />
         </Link>
-      </div>
-
-      <header className="flex items-center justify-between mb-8">
-        <div className="flex items-center space-x-4"></div>
         <input
           type="text"
           placeholder="Search Bar"
           className="p-2 border border-gray-300 rounded w-1/2"
         />
+   
       </header>
 
       <section className="mb-8">
