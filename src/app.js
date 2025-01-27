@@ -18,7 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/discussion/:discussionId" element={<Discussion />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/profile/:username "element={<ProfilePage />} />
+          <Route path="/profile/:username"element={<ProfilePage />} />
         </Routes>
       </div>
     </Router>
