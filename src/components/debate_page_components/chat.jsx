@@ -44,11 +44,11 @@ const ChatApp = ({ discussionId, chatMessages }) => {
   }, [messages]);
 
   return (
-    <div className="h-full bg-gray-100 p-4 shadow-lg">
+    <div className="h-full bg-gray-200 p-4 shadow-lg">
       <h1 className="text-lg font-bold mb-4">Chat</h1>
       <div
         ref={chatContainerRef}
-        className="flex flex-col overflow-y-auto border border-gray-300 p-2 rounded mb-2"
+        className="flex flex-col overflow-y-auto"
         style={{ height: "697px" }}
       >
         {messages.map((msg, index) => (
