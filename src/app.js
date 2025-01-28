@@ -6,7 +6,6 @@ import NotFound from "./pages/NotFound";
 import ProfilePage from "./pages/ProfilePage";
 import AuthPopup from "./components/debate_page_components/AuthPopup"; 
 import "./index.css";
-
 function App() {
   const isAuthenticated = false; 
 

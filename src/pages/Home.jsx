@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import SearchBar from "../components/debate_page_components/search-bar";
 
 const Home = () => {
   const [topics, setTopics] = useState([]); // State to store topics from the backend
+  const [searchQuery, setSearchQuery] = useState(""); // State to manage search input
+  const [filteredTopics, setFilteredTopics] = useState([]); // Filtered topics based on search
 
   // Fetch discussions from the backend
   useEffect(() => {
@@ -13,9 +16,21 @@ const Home = () => {
         }
         return response.json();
       })
-      .then((data) => setTopics(data)) // Update the topics state with the fetched data
+      .then((data) => {
+        setTopics(data);
+        setFilteredTopics(data); // Initialize filtered topics
+      })
       .catch((error) => console.error("Error fetching discussions:", error));
   }, []);
+
+  // Update filtered topics based on search query
+  useEffect(() => {
+    setFilteredTopics(
+      topics.filter((topic) =>
+        topic.topic.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    );
+  }, [searchQuery, topics]);
 
   return (
     <div className="bg-gray-100 min-h-screen p-8">
@@ -29,29 +44,17 @@ const Home = () => {
             className="cursor-pointer"
           />
         </Link>
-        <input
-          type="text"
-          placeholder="Search Bar"
-          className="p-2 border border-gray-300 rounded w-1/2"
-        />
-   
+
+        {/* Search Bar */}
+        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </header>
 
-      <section className="mb-8">
-        <h2 className="text-4xl font-bold text-center mb-4">BREAKING NEWS!!</h2>
-        <div className="grid grid-cols-3 gap-4">
-          <div className="h-24 bg-gray-300 rounded" />
-          <div className="h-24 bg-gray-300 rounded" />
-          <div className="h-24 bg-gray-300 rounded" />
-        </div>
-      </section>
-
       <section>
-        {topics.length === 0 ? (
+        {filteredTopics.length === 0 ? (
           <p className="text-center text-gray-500">No discussions available.</p>
         ) : (
           <div className="grid grid-cols-3 gap-4">
-            {topics.map((topic) => (
+            {filteredTopics.map((topic) => (
               <Link
                 key={topic.id}
                 to={`/discussion/${topic.id}`}
