@@ -45,10 +45,17 @@ const Discussion = () => {
         )}
       </div>
 
-      {/* Approval Bar Section */}
-      <div className="p-4">
-        <ApprovalBar percentage={discussion ? discussion.leftAgreeRatio : 0} />
-      </div>
+
+{/* Approval Bar Section - Locked Above Video Containers */}
+<div className="flex justify-center p-4">
+  <div className="w-2/3">
+    {discussion ? (
+      <ApprovalBar percentage={discussion.leftAgreeRatio} />
+    ) : (
+      <ApprovalBar percentage={0} />
+    )}
+  </div>
+</div>
 
       {/* Main Content Section */}
       <div className="flex flex-col p-4 space-y-4">
