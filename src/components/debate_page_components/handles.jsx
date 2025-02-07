@@ -1,5 +1,5 @@
 import React from "react";
-import { FaThumbsUp, FaThumbsDown, FaMicrophone, FaShare, FaVideo } from "react-icons/fa";
+import { FaThumbsUp, FaThumbsDown, FaShare } from "react-icons/fa";
 
 const Handles = () => {
   return (
@@ -15,19 +15,9 @@ const Handles = () => {
         <span>Dislike</span>
       </button>
 
-      <button className="flex items-center space-x-1 text-blue-500 hover:text-blue-600">
-        <FaMicrophone />
-        <span>Mute</span>
-      </button>
-
       <button className="flex items-center space-x-1 text-purple-500 hover:text-purple-600">
         <FaShare />
         <span>Share</span>
-      </button>
-
-      <button className="flex items-center space-x-1 text-orange-500 hover:text-orange-600">
-        <FaVideo />
-        <span>Video</span>
       </button>
     </div>
   );
