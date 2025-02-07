@@ -7,12 +7,12 @@ const Handles = () => {
 
       <button className="flex items-center space-x-1 text-green-500 hover:text-green-600">
         <FaThumbsUp />
-        <span>Like</span>
+        <span>Agree</span>
       </button>
 
       <button className="flex items-center space-x-1 text-red-500 hover:text-red-600">
         <FaThumbsDown />
-        <span>Dislike</span>
+        <span>Disagree</span>
       </button>
 
       <button className="flex items-center space-x-1 text-purple-500 hover:text-purple-600">
