@@ -4,6 +4,7 @@ import RightProfilePic from "../../images/RightProfilePic.jpg";
 const ApprovalBar = ({ percentage }) => {
   return (
     <div className="flex items-center w-full space-x-2">
+      {/* Placeholder profile pictures for now, they project will use AWS bucket where the images will be stored.*/}
 
       <img
         src={LeftProfilePic}

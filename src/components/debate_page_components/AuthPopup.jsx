@@ -46,47 +46,48 @@ const AuthPopup = () => {
 
   const handleLogin = () => {
     if (userData.user_name && userData.user_password) {
-      fetch("/api/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userName: userData.user_name,
-          userPassword: userData.user_password,
-        }),
-      })
+        fetch("/api/users/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                userName: userData.user_name,
+                userPassword: userData.user_password,
+            }),
+        })
         .then((response) => {
-          if (!response.ok) {
-            return response.json().then((data) => {
-              throw new Error(data.message || "Login failed");
-            });
-          }
-          return response.json();
+            if (!response.ok) {
+                return response.json().then((data) => {
+                    throw new Error(data.message || "Login failed");
+                });
+            }
+            return response.json();
         })
         .then((data) => {
-          alert(data.message);
-          setLoggedInUser(data.userName);
-          setIsLoggedIn(true);
-          setShowPopup(false);
+            alert(data.message);
+            setLoggedInUser(data.userName);
+            localStorage.setItem("username", data.userName);  // Save the username to locall storage
+            setIsLoggedIn(true);
+            setShowPopup(false);
+            console.log("Stored Username in localStorage:", localStorage.getItem("username")); // Debugging
         })
         .catch((error) => alert(error.message));
     } else {
-      alert("Please enter both username and password!");
+        alert("Please enter both username and password!");
     }
-  };
-  
+};
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setLoggedInUser(null);
-    setUserData({
-      user_name: "",
-      user_password: "",
-      tag_of_interest: "",
-    });
-    alert("Logged out successfully");
-  };
+const handleLogout = () => {
+  setIsLoggedIn(false);
+  setLoggedInUser(null);
+  localStorage.removeItem("username"); 
+  setUserData({
+    user_name: "",
+    user_password: "",
+    tag_of_interest: "",
+  });
+  alert("Logged out successfully");
+};
+
 
   return (
     <div className="fixed top-4 right-4 z-50">

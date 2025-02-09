@@ -8,8 +8,11 @@ import ChatApp from "../components/debate_page_components/chat";
 import Handles from "../components/debate_page_components/handles";
 
 const Discussion = () => {
-  const { discussionId } = useParams(); // Grab discussionId from route params
+  const { discussionId } = useParams();  // Grab discussionId from route params
   const [discussion, setDiscussion] = useState(null);
+
+  // Retrieve logged-in username from localStorage
+  const loggedInUsername = localStorage.getItem("username") || "Anonymous";
 
   useEffect(() => {
     console.log("Fetched discussionId:", discussionId); // Debugging the discussionId
@@ -45,17 +48,16 @@ const Discussion = () => {
         )}
       </div>
 
-
-{/* Approval Bar Section - Locked Above Video Containers */}
-<div className="flex justify-center p-4">
-  <div className="w-2/3">
-    {discussion ? (
-      <ApprovalBar percentage={discussion.leftAgreeRatio} />
-    ) : (
-      <ApprovalBar percentage={0} />
-    )}
-  </div>
-</div>
+      {/* Approval Bar Section - Locked Above Video Containers */}
+      <div className="flex justify-center p-4">
+        <div className="w-2/3">
+          {discussion ? (
+            <ApprovalBar percentage={discussion.leftAgreeRatio} />
+          ) : (
+            <ApprovalBar percentage={0} />
+          )}
+        </div>
+      </div>
 
       {/* Main Content Section */}
       <div className="flex flex-col p-4 space-y-4">
@@ -64,7 +66,7 @@ const Discussion = () => {
           <div className="flex-1 flex flex-col bg-gray-200 rounded p-4">
             <h3 className="text-center font-bold text-2xl mb-4">JordaN</h3>
             <VideoContainer />
-            {/* // Added Handles Component for Left Video */}
+            {/* Handles Component for Left Video */}
             <div className="mt-4">
               <Handles />
             </div>
@@ -74,7 +76,7 @@ const Discussion = () => {
           <div className="flex-1 flex flex-col bg-gray-200 rounded p-4">
             <h3 className="text-center font-bold text-2xl mb-4">Richard1</h3>
             <VideoContainer />
-            {/* // Added Handles Component for Right Video */}
+            {/* Handles Component for Right Video */}
             <div className="mt-4">
               <Handles />
             </div>
@@ -83,7 +85,11 @@ const Discussion = () => {
           {/* Chat Section */}
           <div className="w-1/3 bg-gray-100 rounded p-4">
             {discussion ? (
-              <ChatApp discussionId={discussionId} chatMessages={discussion.chat || []} />
+              <ChatApp
+                discussionId={discussionId}
+                chatMessages={discussion.chat || []}
+                loggedInUsername={loggedInUsername} 
+              />
             ) : (
               <p>Loading chat...</p>
             )}

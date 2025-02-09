@@ -2,7 +2,9 @@ package com.debateproject.backend.controllers;
 
 import com.debateproject.backend.classes.Discussion;
 import com.debateproject.backend.repository.DiscussionRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,23 +40,31 @@ public class DiscussionController {
 
     // Add a chat message to a specific discussion
     @PostMapping("/{discussionId}/chat")
-    public ResponseEntity<?> addChatMessage(@PathVariable String discussionId, @RequestBody Map<String, String> payload) {
-        String userId = payload.get("user_id");
+    public ResponseEntity<?> addChatMessage(@PathVariable String discussionId, @RequestBody Map<String, String> payload, HttpServletRequest request) {
+        // Retrieve the actual logged-in username from the session (or security context)
+        String loggedInUser = (String) request.getSession().getAttribute("username");
+
+        if (loggedInUser == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not logged in");
+        }
+
         String message = payload.get("message");
         Optional<Discussion> discussion = discussionRepository.findById(discussionId);
 
         if (discussion.isPresent()) {
             Discussion existingDiscussion = discussion.get();
             Map<String, String> chatMessage = new HashMap<>();
-            chatMessage.put("user_id", userId);
+            chatMessage.put("username", loggedInUser); // Use the session username
             chatMessage.put("message", message);
-            existingDiscussion.getChat().add(chatMessage); // Save as object
+            existingDiscussion.getChat().add(chatMessage);
             discussionRepository.save(existingDiscussion);
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
         }
     }
+
+
 
 
     // Create a new discussion
