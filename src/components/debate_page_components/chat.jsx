@@ -11,25 +11,36 @@ const ChatApp = ({ discussionId, chatMessages }) => {
   const handleSend = () => {
     if (newMessage.trim() !== "") {
       const message = {
-        username: loggedInUsername, // 🔹 Use stored username
+        username: loggedInUsername,
         message: newMessage,
       };
-
+  
       fetch(`/api/discussions/${discussionId}/chat`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // Important for session-based authentication
         body: JSON.stringify(message),
       })
-        .then((response) => {
+        .then(async (response) => {
           if (!response.ok) {
-            throw new Error("Failed to send message");
+            const errorMessage = await response.text(); // Get error message
+            throw new Error(errorMessage || "Failed to send message");
           }
-          setMessages((prevMessages) => [...prevMessages, message]); // ✅ Update UI
+  
+          // ✅ Check if response has content before parsing
+          return response.headers.get("content-length") === "0" ? {} : response.json();
+        })
+        .then((data) => {
+          console.log("Message sent:", data);
+          setMessages((prevMessages) => [...prevMessages, message]);
           setNewMessage("");
         })
         .catch((error) => console.error("Error sending message:", error));
     }
   };
+  
 
   // 🔹 Scroll to the latest message whenever messages change
   useEffect(() => {

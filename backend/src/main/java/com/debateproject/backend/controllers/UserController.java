@@ -2,6 +2,7 @@ package com.debateproject.backend.controllers;
 
 import com.debateproject.backend.classes.User;
 import com.debateproject.backend.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,21 +30,23 @@ public class UserController {
     }
     // Login a user
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody Map<String, String> loginDetails) {
-        String username = loginDetails.get("userName");
-        String password = loginDetails.get("userPassword");
+    public ResponseEntity<?> loginUser(@RequestBody Map<String, String> credentials, HttpServletRequest request) {
+        String userName = credentials.get("userName");
+        String userPassword = credentials.get("userPassword");
 
-        Optional<User> user = userRepository.findByUserName(username);
+        Optional<User> user = userRepository.findByUserName(userName);
 
-        if (user.isPresent() && user.get().getUserPassword().equals(password)) {
+        if (user.isPresent() && user.get().getUserPassword().equals(userPassword)) {
+            request.getSession().setAttribute("username", userName); // ✅ Store user in session
             Map<String, String> response = new HashMap<>();
-            response.put("message", "Login successful");
-            response.put("userName", user.get().getUserName());
+            response.put("message", "Login successful!");
+            response.put("userName", userName);
             return ResponseEntity.ok(response);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Invalid username or password"));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }
+
     //gets the username so that we can direct to a specific profile page
     @GetMapping("/profile/{username}")
     public ResponseEntity<User> getUserProfile(@PathVariable String username) {

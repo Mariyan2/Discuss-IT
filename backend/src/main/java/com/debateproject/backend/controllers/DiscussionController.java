@@ -45,7 +45,7 @@ public class DiscussionController {
         String loggedInUser = (String) request.getSession().getAttribute("username");
 
         if (loggedInUser == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not logged in");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"error\": \"User is not logged in\"}"); // ✅ Return valid JSON
         }
 
         String message = payload.get("message");
@@ -58,11 +58,13 @@ public class DiscussionController {
             chatMessage.put("message", message);
             existingDiscussion.getChat().add(chatMessage);
             discussionRepository.save(existingDiscussion);
-            return ResponseEntity.ok().build();
+
+            return ResponseEntity.ok().body("{\"status\": \"success\", \"message\": \"Chat message added\"}"); // ✅ Ensure JSON response
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\": \"Discussion not found\"}"); // ✅ Return JSON
         }
     }
+
 
 
 

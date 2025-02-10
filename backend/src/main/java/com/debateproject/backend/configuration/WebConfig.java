@@ -16,7 +16,7 @@ public class WebConfig {
                 registry.addMapping("/api/**") // Match your API routes
                         .allowedOrigins("http://localhost:3000") // Allow requests from your React app
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow these HTTP methods
-                        .allowedHeaders("*") // Allow all headers
+                        .allowedHeaders("Authorization", "Content-Type") // Explicitly allow authentication headers
                         .allowCredentials(true); // Allow cookies or authentication
             }
         };
