@@ -71,10 +71,24 @@ public class DiscussionController {
 
     // Create a new discussion
     @PostMapping
-    public ResponseEntity<Discussion> createDiscussion(@RequestBody Discussion discussion) {
+    public ResponseEntity<Discussion> createDiscussion(@RequestBody Map<String, String> payload, HttpServletRequest request) {
+        String loggedInUser = (String) request.getSession().getAttribute("username"); // Retrieve logged-in user
+
+        if (loggedInUser == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        // Create discussion with creator set
+        Discussion discussion = new Discussion(
+                payload.get("topic"),
+                payload.get("category"),
+                loggedInUser // Assign logged-in user as creator
+        );
+
         Discussion savedDiscussion = discussionRepository.save(discussion);
         return ResponseEntity.ok(savedDiscussion);
     }
+
 
     // Update a specific discussion
     @PutMapping("/{discussionId}")
@@ -104,4 +118,27 @@ public class DiscussionController {
             return ResponseEntity.notFound().build();
         }
     }
+    // Join discussion
+    @PutMapping("/{discussionId}/join")
+    public ResponseEntity<?> joinDiscussion(@PathVariable String discussionId, @RequestBody Map<String, String> payload) {
+        Optional<Discussion> discussionOpt = discussionRepository.findById(discussionId);
+
+        if (discussionOpt.isPresent()) {
+            Discussion discussion = discussionOpt.get();
+
+            // Ensure the opponent isn't already set
+            if (discussion.getOpponent() != null) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("This discussion already has an opponent.");
+            }
+
+            // Update and save opponent
+            discussion.setOpponent(payload.get("opponent"));
+            discussionRepository.save(discussion);
+
+            return ResponseEntity.ok(discussion);  // Send back updated discussion
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Discussion not found.");
+        }
+    }
+
 }

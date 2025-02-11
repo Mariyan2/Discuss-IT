@@ -15,17 +15,29 @@ const Discussion = () => {
   const loggedInUsername = localStorage.getItem("username") || "Anonymous";
 
   useEffect(() => {
-    console.log("Fetched discussionId:", discussionId); // Debugging the discussionId
     fetch(`http://localhost:8080/api/discussions/${discussionId}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch discussion data");
+      .then((response) => response.json())
+      .then((data) => {
+        setDiscussion(data);
+  
+        // If no opponent, auto-join
+        if (!data.opponent && data.creator !== loggedInUsername) {
+          fetch(`http://localhost:8080/api/discussions/${discussionId}/join`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ opponent: loggedInUsername }),
+          })
+          .then(response => response.json())
+          .then(updatedData => {
+            console.log("Opponent joined:", updatedData);
+            setDiscussion(updatedData);
+          })
+          .catch(error => console.error("Error joining discussion:", error));
         }
-        return response.json();
       })
-      .then((data) => setDiscussion(data))
-      .catch((error) => console.error("Error fetching discussion:", error));
-  }, [discussionId]);
+      .catch(error => console.error("Error fetching discussion:", error));
+  }, [discussionId, loggedInUsername]);
+  
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
@@ -48,51 +60,42 @@ const Discussion = () => {
         )}
       </div>
 
-      {/* Approval Bar Section - Locked Above Video Containers */}
+      {/* Approval Bar Section */}
       <div className="flex justify-center p-4">
         <div className="w-2/3">
-          {discussion ? (
-            <ApprovalBar percentage={discussion.leftAgreeRatio} />
-          ) : (
-            <ApprovalBar percentage={0} />
-          )}
+          {discussion ? <ApprovalBar percentage={discussion.leftAgreeRatio} /> : <ApprovalBar percentage={0} />}
         </div>
       </div>
 
       {/* Main Content Section */}
       <div className="flex flex-col p-4 space-y-4">
         <div className="flex space-x-4">
-          {/* Left Video Container */}
+          {/* Left Video Container (Creator) */}
           <div className="flex-1 flex flex-col bg-gray-200 rounded p-4">
-            <h3 className="text-center font-bold text-2xl mb-4">JordaN</h3>
+            <h3 className="text-center font-bold text-2xl mb-4">
+              {discussion?.creator || "Waiting..."} 
+            </h3> 
             <VideoContainer />
-            {/* Handles Component for Left Video */}
             <div className="mt-4">
               <Handles />
             </div>
           </div>
 
-          {/* Right Video Container */}
+          {/* Right Video Container (Opponent) */}
           <div className="flex-1 flex flex-col bg-gray-200 rounded p-4">
-            <h3 className="text-center font-bold text-2xl mb-4">Richard1</h3>
+            <h3 className="text-center font-bold text-2xl mb-4">
+              {discussion?.opponent || "Waiting for opponent..."} 
+            </h3>
             <VideoContainer />
-            {/* Handles Component for Right Video */}
             <div className="mt-4">
               <Handles />
             </div>
           </div>
+
 
           {/* Chat Section */}
           <div className="w-1/3 bg-gray-100 rounded p-4">
-            {discussion ? (
-              <ChatApp
-                discussionId={discussionId}
-                chatMessages={discussion.chat || []}
-                loggedInUsername={loggedInUsername} 
-              />
-            ) : (
-              <p>Loading chat...</p>
-            )}
+            {discussion ? <ChatApp discussionId={discussionId} chatMessages={discussion.chat || []} loggedInUsername={loggedInUsername} /> : <p>Loading chat...</p>}
           </div>
         </div>
 

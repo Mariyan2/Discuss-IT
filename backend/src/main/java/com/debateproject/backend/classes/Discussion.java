@@ -16,19 +16,23 @@ public class Discussion {
     private String category;
     private int leftAgreeRatio;
     private int rightAgreeRatio;
+    private String creator;
+    private String opponent;
     private List<Map<String, String>> chat;
+
+
 
     // Constructors
     public Discussion() {
         this.chat = new ArrayList<>(); // Initialize chat to avoid null pointers
     }
 
-    public Discussion(String topic, String category, int leftAgreeRatio, int rightAgreeRatio) {
+    public Discussion(String topic, String category, String creator) {
         this.topic = topic;
         this.category = category;
-        this.leftAgreeRatio = leftAgreeRatio;
-        this.rightAgreeRatio = rightAgreeRatio;
-        this.chat = new ArrayList<>(); // Initialize chat to avoid null pointers
+        this.creator = creator;
+        this.opponent = null; // Initially, no opponent until they join
+        this.chat = new ArrayList<>();
     }
 
     // Getters and Setters
@@ -71,6 +75,14 @@ public class Discussion {
     public void setRightAgreeRatio(int rightAgreeRatio) {
         this.rightAgreeRatio = rightAgreeRatio;
     }
+
+    public String getCreator() { return creator; }
+
+    public void setCreator(String creator) { this.creator = creator; }
+
+    public String getOpponent() { return opponent; }
+
+    public void setOpponent(String opponent) { this.opponent = opponent; }
 
     public List<Map<String, String>> getChat() {
         return chat;
