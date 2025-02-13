@@ -37,7 +37,7 @@ public class UserController {
         Optional<User> user = userRepository.findByUserName(userName);
 
         if (user.isPresent() && user.get().getUserPassword().equals(userPassword)) {
-            request.getSession().setAttribute("username", userName); // ✅ Store user in session
+            request.getSession().setAttribute("username", userName);
             Map<String, String> response = new HashMap<>();
             response.put("message", "Login successful!");
             response.put("userName", userName);

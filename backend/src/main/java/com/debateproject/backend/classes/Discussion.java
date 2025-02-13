@@ -20,19 +20,27 @@ public class Discussion {
     private String opponent;
     private List<Map<String, String>> chat;
 
+    private List<String> creatorLikes;
+    private List<String> opponentLikes;
 
 
     // Constructors
     public Discussion() {
         this.chat = new ArrayList<>(); // Initialize chat to avoid null pointers
+        this.creatorLikes = new ArrayList<>();
+        this.opponentLikes = new ArrayList<>();
     }
 
     public Discussion(String topic, String category, String creator) {
         this.topic = topic;
         this.category = category;
         this.creator = creator;
-        this.opponent = null; // Initially, no opponent until they join
+        this.opponent = null; // the opponent is initially empty
+        this.leftAgreeRatio = 50; // default value
+        this.rightAgreeRatio = 50; // Default value
         this.chat = new ArrayList<>();
+        this.creatorLikes = new ArrayList<>();
+        this.opponentLikes = new ArrayList<>();
     }
 
     // Getters and Setters
@@ -90,6 +98,22 @@ public class Discussion {
 
     public void setChat(List<Map<String, String>> chat) {
         this.chat = chat;
+    }
+
+    public List<String> getCreatorLikes() {
+        return creatorLikes;
+    }
+
+    public void setCreatorLikes(List<String> creatorLikes) {
+        this.creatorLikes = creatorLikes;
+    }
+
+    public List<String> getOpponentLikes() {
+        return opponentLikes;
+    }
+
+    public void setOpponentLikes(List<String> opponentLikes) {
+        this.opponentLikes = opponentLikes;
     }
 
     public void addChatMessage(Map<String, String> message) {

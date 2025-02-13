@@ -19,6 +19,8 @@ public class WebConfig {
                         .allowedHeaders("Authorization", "Content-Type") // Explicitly allow authentication headers
                         .allowCredentials(true); // Allow cookies or authentication
             }
+
         };
+
     }
 }

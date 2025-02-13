@@ -37,6 +37,29 @@ const Discussion = () => {
       })
       .catch(error => console.error("Error fetching discussion:", error));
   }, [discussionId, loggedInUsername]);
+ 
+const handleVote = (voteFor) => {
+  fetch(`http://localhost:8080/api/discussions/${discussionId}/like`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ target: voteFor }),
+    credentials: "include",
+  })
+    .then((response) => response.json())
+    .then((updatedData) => {
+      console.log("Updated Discussion Data:", updatedData);
+
+      if (!updatedData.creator || !updatedData.opponent) {
+        console.error("Invalid response data:", updatedData);
+        return;
+      }
+
+      // 🔹 Force React to re-render the component with the new discussion state
+      setDiscussion({ ...updatedData });
+    })
+    .catch((error) => console.error("Error liking discussion:", error));
+};
+  
   
 
   return (
@@ -60,10 +83,17 @@ const Discussion = () => {
         )}
       </div>
 
-      {/* Approval Bar Section */}
+      {/*  Approval Bar Section  */}
       <div className="flex justify-center p-4">
         <div className="w-2/3">
-          {discussion ? <ApprovalBar percentage={discussion.leftAgreeRatio} /> : <ApprovalBar percentage={0} />}
+          {discussion ? (
+            <ApprovalBar 
+              leftPercentage={discussion.leftAgreeRatio} 
+              rightPercentage={discussion.rightAgreeRatio} 
+            />
+          ) : (
+            <ApprovalBar leftPercentage={50} rightPercentage={50} />
+          )}
         </div>
       </div>
 
@@ -73,29 +103,48 @@ const Discussion = () => {
           {/* Left Video Container (Creator) */}
           <div className="flex-1 flex flex-col bg-gray-200 rounded p-4">
             <h3 className="text-center font-bold text-2xl mb-4">
-              {discussion?.creator || "Waiting..."} 
-            </h3> 
-            <VideoContainer />
-            <div className="mt-4">
-              <Handles />
-            </div>
-          </div>
-
-          {/* Right Video Container (Opponent) */}
-          <div className="flex-1 flex flex-col bg-gray-200 rounded p-4">
-            <h3 className="text-center font-bold text-2xl mb-4">
-              {discussion?.opponent || "Waiting for opponent..."} 
+              {discussion?.creator || "Waiting..."}
             </h3>
             <VideoContainer />
             <div className="mt-4">
               <Handles />
             </div>
+            <button
+              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              onClick={() => handleVote("creator")}
+            >
+              👍 Like
+            </button>
           </div>
 
+          {/* Right Video Container (Opponent) */}
+          <div className="flex-1 flex flex-col bg-gray-200 rounded p-4">
+            <h3 className="text-center font-bold text-2xl mb-4">
+              {discussion?.opponent || "Waiting for opponent..."}
+            </h3>
+            <VideoContainer />
+            <div className="mt-4">
+              <Handles />
+            </div>
+            <button
+              className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+              onClick={() => handleVote("opponent")}
+            >
+              👍 Like
+            </button>
+          </div>
 
           {/* Chat Section */}
           <div className="w-1/3 bg-gray-100 rounded p-4">
-            {discussion ? <ChatApp discussionId={discussionId} chatMessages={discussion.chat || []} loggedInUsername={loggedInUsername} /> : <p>Loading chat...</p>}
+            {discussion ? (
+              <ChatApp
+                discussionId={discussionId}
+                chatMessages={discussion.chat || []}
+                loggedInUsername={loggedInUsername}
+              />
+            ) : (
+              <p>Loading chat...</p>
+            )}
           </div>
         </div>
 

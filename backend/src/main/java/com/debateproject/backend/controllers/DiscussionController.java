@@ -45,7 +45,7 @@ public class DiscussionController {
         String loggedInUser = (String) request.getSession().getAttribute("username");
 
         if (loggedInUser == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"error\": \"User is not logged in\"}"); // ✅ Return valid JSON
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"error\": \"User is not logged in\"}");
         }
 
         String message = payload.get("message");
@@ -59,9 +59,9 @@ public class DiscussionController {
             existingDiscussion.getChat().add(chatMessage);
             discussionRepository.save(existingDiscussion);
 
-            return ResponseEntity.ok().body("{\"status\": \"success\", \"message\": \"Chat message added\"}"); // ✅ Ensure JSON response
+            return ResponseEntity.ok().body("{\"status\": \"success\", \"message\": \"Chat message added\"}");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\": \"Discussion not found\"}"); // ✅ Return JSON
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\": \"Discussion not found\"}");
         }
     }
 
@@ -140,5 +140,53 @@ public class DiscussionController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Discussion not found.");
         }
     }
+
+    @PutMapping("/{discussionId}/like")
+    public ResponseEntity<?> likeDiscussion(@PathVariable String discussionId, @RequestBody Map<String, String> payload, HttpServletRequest request) {
+        String loggedInUser = (String) request.getSession().getAttribute("username");
+        if (loggedInUser == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not logged in");
+        }
+
+        String target = payload.get("target");
+        Optional<Discussion> discussionOpt = discussionRepository.findById(discussionId);
+
+        if (discussionOpt.isPresent()) {
+            Discussion discussion = discussionOpt.get();
+
+            if ("creator".equals(target)) {
+                if (!discussion.getCreatorLikes().contains(loggedInUser)) {
+                    discussion.getCreatorLikes().add(loggedInUser);
+                    discussion.getOpponentLikes().remove(loggedInUser);
+                }
+            } else if ("opponent".equals(target)) {
+                if (!discussion.getOpponentLikes().contains(loggedInUser)) {
+                    discussion.getOpponentLikes().add(loggedInUser);
+                    discussion.getCreatorLikes().remove(loggedInUser);
+                }
+            }
+
+            // Recalculate percentages
+            int totalLikes = discussion.getCreatorLikes().size() + discussion.getOpponentLikes().size();
+            if (totalLikes > 0) {
+                int creatorPercentage = (int) ((double) discussion.getCreatorLikes().size() / totalLikes * 100);
+                int opponentPercentage = 100 - creatorPercentage;
+
+                discussion.setLeftAgreeRatio(creatorPercentage);
+                discussion.setRightAgreeRatio(opponentPercentage);
+            } else {
+                discussion.setLeftAgreeRatio(50);
+                discussion.setRightAgreeRatio(50);
+            }
+
+            // 🔹 Ensure we return the updated discussion object
+            Discussion updatedDiscussion = discussionRepository.save(discussion);
+            return ResponseEntity.ok(updatedDiscussion);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 
 }
