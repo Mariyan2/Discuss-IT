@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const CreateThread = ({ onThreadCreated }) => {
+  const [showForm, setShowForm] = useState(false);
   const [topic, setTopic] = useState("");
   const [category, setCategory] = useState("");
   const [loading, setLoading] = useState(false);
@@ -10,14 +11,13 @@ const CreateThread = ({ onThreadCreated }) => {
       alert("Please enter both topic and category!");
       return;
     }
-
     setLoading(true);
 
     try {
       const response = await fetch("/api/discussions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include", // Ensures cookies/session are sent
+        credentials: "include",
         body: JSON.stringify({ topic, category }),
       });
 
@@ -27,13 +27,14 @@ const CreateThread = ({ onThreadCreated }) => {
 
       const newThread = await response.json();
       alert("Thread created successfully!");
-
-      setTopic(""); // Reset input fields
+      setTopic("");
       setCategory("");
 
       if (onThreadCreated) {
-        onThreadCreated(newThread); // Update UI in Home.jsx
+        onThreadCreated(newThread);
       }
+      // Automatically reload the page after thread creation
+      window.location.reload();
     } catch (error) {
       console.error("Error creating thread:", error);
       alert("Failed to create thread");
@@ -42,8 +43,26 @@ const CreateThread = ({ onThreadCreated }) => {
     }
   };
 
+  if (!showForm) {
+    return (
+      <button
+        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+        onClick={() => setShowForm(true)}
+      >
+        Create Thread
+      </button>
+    );
+  }
+
   return (
-    <div className="p-4 bg-white shadow-md rounded w-full max-w-lg mx-auto">
+    <div className="relative p-4 bg-white shadow-md rounded w-full max-w-lg mx-auto">
+      {/* X Button to close the form */}
+      <button
+        onClick={() => setShowForm(false)}
+        className="absolute top-0 right-2 text-2xl font-bold text-gray-500 hover:text-gray-900"
+      >
+        x
+      </button>
       <h2 className="text-xl font-bold mb-4">Create New Discussion</h2>
       <input
         type="text"

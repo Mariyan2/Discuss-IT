@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "../components/debate_page_components/search-bar";
-import CreateThread from "../components/debate_page_components/create-thread";
 const Home = () => {
   const [topics, setTopics] = useState([]); // State to store topics from the backend
   const [searchQuery, setSearchQuery] = useState(""); // State to manage search input
@@ -32,10 +31,6 @@ const Home = () => {
     );
   }, [searchQuery, topics]);
 
-  //Function to update the topics list after creating a thread
-  const handleThreadCreated = (newThread) => {
-    setTopics((prevTopics) => [newThread, ...prevTopics]); // Add new thread to the list
-  };
 
   
   return (
@@ -54,10 +49,6 @@ const Home = () => {
         {/* Search Bar */}
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </header>
-
-      <div className="mb-6">
-        <CreateThread onThreadCreated={handleThreadCreated} />
-      </div>
 
       <section>
         {filteredTopics.length === 0 ? (
