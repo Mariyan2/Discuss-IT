@@ -1,22 +1,48 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
+import { connect, createLocalVideoTrack } from "twilio-video";
 
-const VideoContainer = () => {
-  const jitsiContainer = useRef(null);
+const VideoContainer = ({ roomName }) => {
+  const [room, setRoom] = useState(null);
 
   useEffect(() => {
-    const domain = "meet.jit.si";
-    const options = {
-      roomName: "YourUniqueRoomName",
-      parentNode: jitsiContainer.current,
-      width: "100%",
-      height: "100%",
+    const fetchTokenAndJoinRoom = async () => {
+      try {
+        const response = await fetch(`/api/twilio/token/${roomName}`);
+        const data = await response.json();
+        const token = data.token;
+
+        const videoRoom = await connect(token, {
+          name: roomName,
+          video: true,
+          audio: true,
+        });
+
+        setRoom(videoRoom);
+
+        videoRoom.on("participantConnected", (participant) => {
+          console.log(`Participant "${participant.identity}" connected`);
+        });
+
+      } catch (error) {
+        console.error("Error connecting to Twilio Video:", error);
+      }
     };
-    const api = new window.JitsiMeetExternalAPI(domain, options);
 
-    return () => api.dispose(); 
-  }, []);
+    fetchTokenAndJoinRoom();
 
-  return <div ref={jitsiContainer} style={{ height: "500px", width: "100%" }} />;
+    return () => {
+      if (room) {
+        room.disconnect();
+      }
+    };
+  }, [roomName]);
+
+  return (
+    <div>
+      <h3>Video Room: {roomName}</h3>
+      <div id="video-container"></div>
+    </div>
+  );
 };
 
 export default VideoContainer;
