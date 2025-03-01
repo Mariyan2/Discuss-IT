@@ -1,48 +1,53 @@
-import React, { useEffect, useState } from "react";
-import { connect, createLocalVideoTrack } from "twilio-video";
+import React, { useEffect, useRef } from "react";
+import DailyIframe from "@daily-co/daily-js";
 
-const VideoContainer = ({ roomName }) => {
-  const [room, setRoom] = useState(null);
+const VideoContainer = ({ roomUrl }) => {
+  const videoRef = useRef(null);
+  const callFrameRef = useRef(null); // Store DailyIframe instance globally
 
   useEffect(() => {
-    const fetchTokenAndJoinRoom = async () => {
-      try {
-        const response = await fetch(`/api/twilio/token/${roomName}`);
-        const data = await response.json();
-        const token = data.token;
+    if (!roomUrl || !videoRef.current) return;
 
-        const videoRoom = await connect(token, {
-          name: roomName,
-          video: true,
-          audio: true,
-        });
+    // Check if an instance already exists
+    if (callFrameRef.current) {
+      console.log("Destroying existing DailyIframe instance before creating a new one...");
+      callFrameRef.current.destroy();
+      callFrameRef.current = null;
+    }
 
-        setRoom(videoRoom);
+    if (window.__dailyCallFrame) {
+      console.warn("A DailyIframe instance is already running! Skipping new instance creation.");
+      return;
+    }
 
-        videoRoom.on("participantConnected", (participant) => {
-          console.log(`Participant "${participant.identity}" connected`);
-        });
+    console.log("Creating new DailyIframe instance...");
 
-      } catch (error) {
-        console.error("Error connecting to Twilio Video:", error);
-      }
-    };
+    try {
+      // Create a new instance and store it globally
+      callFrameRef.current = DailyIframe.createFrame(videoRef.current, {
+        showLeaveButton: true,
+      });
 
-    fetchTokenAndJoinRoom();
+      callFrameRef.current.join({ url: roomUrl });
 
+      // Save to global scope to prevent duplicates
+      window.__dailyCallFrame = callFrameRef.current;
+    } catch (error) {
+      console.error("Error creating DailyIframe:", error);
+    }
+
+    // Cleanup function to ensure proper destruction
     return () => {
-      if (room) {
-        room.disconnect();
+      if (callFrameRef.current) {
+        console.log("Cleaning up DailyIframe instance...");
+        callFrameRef.current.destroy();
+        callFrameRef.current = null;
+        window.__dailyCallFrame = null;
       }
     };
-  }, [roomName]);
+  }, [roomUrl]); // Runs only when `roomUrl` changes
 
-  return (
-    <div>
-      <h3>Video Room: {roomName}</h3>
-      <div id="video-container"></div>
-    </div>
-  );
+  return <div ref={videoRef} style={{ width: "100%", height: "500px" }} />;
 };
 
 export default VideoContainer;

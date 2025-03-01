@@ -10,8 +10,7 @@ import Handles from "../components/debate_page_components/handles";
 const Discussion = () => {
   const { discussionId } = useParams();  // Grab discussionId from route params
   const [discussion, setDiscussion] = useState(null);
-  const [twilioToken, setTwilioToken] = useState(null);
-  // Retrieve logged-in username from localStorage
+  const [roomUrl, setRoomUrl] = useState(null);
   const loggedInUsername = localStorage.getItem("username") || "Anonymous";
 
   useEffect(() => {
@@ -37,18 +36,24 @@ const Discussion = () => {
       })
       .catch(error => console.error("Error fetching discussion:", error));
   }, [discussionId, loggedInUsername]);
- 
+
+  
   useEffect(() => {
-    fetch(`/api/twilio/token/${discussionId}`, {
-      method: "GET",
+    fetch("http://localhost:8080/api/daily/create-room", {
+      method: "POST",
       credentials: "include",
     })
       .then((res) => res.json())
       .then((data) => {
-        setTwilioToken(data.token);
+        if (data.url) {
+          setRoomUrl(data.url);
+        }
       })
-      .catch((error) => console.error("Error fetching Twilio token:", error));
-  }, [discussionId]);
+      .catch((error) =>
+        console.error("Error creating Daily.co room:", error)
+      );
+  }, []); // <-- Empty dependency array
+  
 
 const handleVote = (voteFor) => {
   fetch(`http://localhost:8080/api/discussions/${discussionId}/like`, {
@@ -117,7 +122,8 @@ const handleVote = (voteFor) => {
             <h3 className="text-center font-bold text-2xl mb-4">
               {discussion?.creator || "Waiting..."}
             </h3>
-            {twilioToken ? <VideoContainer token={twilioToken} /> : <p>Loading video...</p>}            <div className="mt-4">
+            {roomUrl ? <VideoContainer roomUrl={roomUrl} /> : <p>Loading video...</p>}
+            <div className="mt-4">
               <Handles />
             </div>
             <button
@@ -133,7 +139,7 @@ const handleVote = (voteFor) => {
             <h3 className="text-center font-bold text-2xl mb-4">
               {discussion?.opponent || "Waiting for opponent..."}
             </h3>
-            {twilioToken ? <VideoContainer token={twilioToken} /> : <p>Loading video...</p>}  
+            {roomUrl ? <VideoContainer roomUrl={roomUrl} /> : <p>Loading video...</p>}
             <div className="mt-4">
               <Handles />
             </div>
