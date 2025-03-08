@@ -23,6 +23,10 @@ public class Discussion {
     private List<String> creatorLikes;
     private List<String> opponentLikes;
 
+    private String creatorImageUrl;
+
+    private String opponentImageUrl;
+
 
     // Constructors
     public Discussion() {

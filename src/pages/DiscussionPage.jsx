@@ -107,12 +107,15 @@ const handleVote = (voteFor) => {
             <ApprovalBar 
               leftPercentage={discussion.leftAgreeRatio} 
               rightPercentage={discussion.rightAgreeRatio} 
+              leftProfilePic={discussion.creatorProfilePic} 
+              rightProfilePic={discussion.opponentProfilePic} 
             />
           ) : (
             <ApprovalBar leftPercentage={50} rightPercentage={50} />
           )}
         </div>
       </div>
+
 
       {/* Main Content Section */}
       <div className="flex flex-col p-4 space-y-4">
