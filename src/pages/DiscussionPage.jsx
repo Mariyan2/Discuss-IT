@@ -100,21 +100,35 @@ const handleVote = (voteFor) => {
         )}
       </div>
 
-      {/*  Approval Bar Section  */}
-      <div className="flex justify-center p-4">
-        <div className="w-2/3">
-          {discussion ? (
-            <ApprovalBar 
-              leftPercentage={discussion.leftAgreeRatio} 
-              rightPercentage={discussion.rightAgreeRatio} 
-              leftProfilePic={discussion.creatorProfilePic} 
-              rightProfilePic={discussion.opponentProfilePic} 
-            />
-          ) : (
-            <ApprovalBar leftPercentage={50} rightPercentage={50} />
-          )}
-        </div>
-      </div>
+{/* Approval Bar Section */}
+<div className="flex justify-center p-4">
+  <div className="w-2/3">
+    {discussion ? (
+     <ApprovalBar
+     leftPercentage={discussion.leftAgreeRatio}
+     rightPercentage={discussion.rightAgreeRatio}
+     leftProfilePic={
+       discussion.creatorProfilePic
+         ? discussion.creatorProfilePic
+         : "https://res.cloudinary.com/dynttd3fe/image/upload/v1741538246/iqvksgclnh4cuxlokont.jpg"
+     }
+     rightProfilePic={
+       discussion.opponentProfilePic
+         ? discussion.opponentProfilePic
+         : "https://res.cloudinary.com/dynttd3fe/image/upload/v1741538246/iqvksgclnh4cuxlokont.jpg"
+     }
+   />
+       ) : (
+      <ApprovalBar
+        leftPercentage={50}
+        rightPercentage={50}
+        leftProfilePic="https://res.cloudinary.com/dynttd3fe/image/upload/v1741538246/iqvksgclnh4cuxlokont.jpg"
+        rightProfilePic="https://res.cloudinary.com/dynttd3fe/image/upload/v1741538246/iqvksgclnh4cuxlokont.jpg"
+      />
+    )}
+  </div>
+</div>
+
 
 
       {/* Main Content Section */}
