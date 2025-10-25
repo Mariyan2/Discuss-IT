@@ -1,5 +1,4 @@
-import React from "react";
-
+//constructs the approval bar with default values set to 50 so the bar is equal on both sides in the beginning
 const ApprovalBar = ({
   leftPercentage = 50,
   rightPercentage = 50,

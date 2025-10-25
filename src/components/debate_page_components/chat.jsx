@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import  { useState, useEffect, useRef } from "react";
 
+           
 const ChatApp = ({ discussionId, chatMessages }) => {
   const [messages, setMessages] = useState(chatMessages);
   const [newMessage, setNewMessage] = useState("");
@@ -29,7 +30,7 @@ const ChatApp = ({ discussionId, chatMessages }) => {
             throw new Error(errorMessage || "Failed to send message");
           }
   
-          // ✅ Check if response has content before parsing
+          // Check if response has content before parsing
           return response.headers.get("content-length") === "0" ? {} : response.json();
         })
         .then((data) => {
@@ -42,7 +43,7 @@ const ChatApp = ({ discussionId, chatMessages }) => {
   };
   
 
-  // 🔹 Scroll to the latest message whenever messages change
+  // Scroll to the latest message whenever messages change
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;

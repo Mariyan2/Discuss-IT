@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Header from "../components/debate_page_components/header";
 import Viewers from "../components/debate_page_components/viewers";
 import ApprovalBar from "../components/debate_page_components/approval-bar";
-import VideoContainer from "../components/debate_page_components/VideoContainer";
+import CustomVideoContainer from "../components/debate_page_components/CustomVideoContainer";
 import ChatApp from "../components/debate_page_components/chat";
 import Handles from "../components/debate_page_components/handles";
+import DailyIframe from "@daily-co/daily-js";
 
 const Discussion = () => {
   const { discussionId } = useParams();  // Grab discussionId from route params
@@ -37,23 +38,47 @@ const Discussion = () => {
       .catch(error => console.error("Error fetching discussion:", error));
   }, [discussionId, loggedInUsername]);
 
-  
   useEffect(() => {
-    fetch("http://localhost:8080/api/daily/create-room", {
-      method: "POST",
-      credentials: "include",
+  fetch(`http://localhost:8080/api/daily/get-room/${discussionId}`)
+    .then((res) => res.text())
+    .then((url) => {
+      console.log("Fetched shared room URL:", url);
+      setRoomUrl(url);
     })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.url) {
-          setRoomUrl(data.url);
-        }
-      })
-      .catch((error) =>
-        console.error("Error creating Daily.co room:", error)
-      );
-  }, []); // <-- Empty dependency array
-  
+    .catch((error) =>
+      console.error("Error fetching shared Daily room:", error)
+    );
+}, [discussionId]);
+
+const [callObject, setCallObject] = useState(null);
+
+useEffect(() => {
+  if (roomUrl && !callObject) {
+    try {
+      const instance = DailyIframe.createCallObject({
+        subscribeToTracksAutomatically: true,
+      });
+      setCallObject(instance);
+
+      instance
+        .join({ url: roomUrl })
+        .then(() => console.log("✅ Joined Daily room"))
+        .catch((err) => {
+          console.error("❌ Error joining Daily room:", err);
+        });
+    } catch (err) {
+      console.error("❌ Failed to create Daily call object:", err);
+    }
+  }
+  return () => {
+    if (callObject) {
+      callObject.leave();
+      callObject.destroy();
+    }
+  };
+}, [roomUrl]);
+
+
 
 const handleVote = (voteFor) => {
   fetch(`http://localhost:8080/api/discussions/${discussionId}/like`, {
@@ -70,8 +95,6 @@ const handleVote = (voteFor) => {
         console.error("Invalid response data:", updatedData);
         return;
       }
-
-      //  Force React to re-render the component with the new discussion state
       setDiscussion({ ...updatedData });
     })
     .catch((error) => console.error("Error liking discussion:", error));
@@ -139,7 +162,7 @@ const handleVote = (voteFor) => {
             <h3 className="text-center font-bold text-2xl mb-4">
               {discussion?.creator || "Waiting..."}
             </h3>
-            {roomUrl ? <VideoContainer roomUrl={roomUrl} /> : <p>Loading video...</p>}
+            {callObject ? <CustomVideoContainer callObject={callObject} userType="left" /> : <p>Loading video...</p>}
             <div className="mt-4">
               <Handles />
             </div>
@@ -156,7 +179,7 @@ const handleVote = (voteFor) => {
             <h3 className="text-center font-bold text-2xl mb-4">
               {discussion?.opponent || "Waiting for opponent..."}
             </h3>
-            {roomUrl ? <VideoContainer roomUrl={roomUrl} /> : <p>Loading video...</p>}
+            {callObject ? <CustomVideoContainer callObject={callObject} userType="right" /> : <p>Loading video...</p>}
             <div className="mt-4">
               <Handles />
             </div>

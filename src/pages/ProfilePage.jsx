@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 //component fetches the profiles data to display it on an individual site.
 function ProfilePage() {

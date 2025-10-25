@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-
+import  { useState, useEffect } from "react";
+//AuthPopup handles the user login / register
 const AuthPopup = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);

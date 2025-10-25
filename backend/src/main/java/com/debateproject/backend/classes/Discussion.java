@@ -10,21 +10,17 @@ import java.util.Map;
 @Document(collection = "discussions")
 public class Discussion {
     @Id
-    private String id;
-
-    private String topic;
-    private String category;
-    private int leftAgreeRatio;
-    private int rightAgreeRatio;
-    private String creator;
-    private String opponent;
-    private List<Map<String, String>> chat;
-
-    private List<String> creatorLikes;
-    private List<String> opponentLikes;
-
+    private String id;                           // Unique topic ID
+    private String topic;                        // topic ( title )
+    private String category;                     //
+    private int leftAgreeRatio;                  // Colors the like bar trough calculating the ratio of the left users likes
+    private int rightAgreeRatio;                 // Identical as leftAgreeRatio but for right user
+    private String creator;                      // Creator of the discussion
+    private String opponent;                     // Second (opponent) in the discussion
+    private List<Map<String, String>> chat;      // Discussions chat
+    private List<String> creatorLikes;           // Number of likes the creator side received
+    private List<String> opponentLikes;          // Number of likes the opponent received
     private String creatorImageUrl;
-
     private String opponentImageUrl;
 
 

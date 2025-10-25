@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const ProfilePicture = () => {
   const [imageUrl, setImageUrl] = useState("…/image/upload/v1741393669/agbrssjkr6npege84xoh.jpg");

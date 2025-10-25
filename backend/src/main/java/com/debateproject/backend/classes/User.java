@@ -4,27 +4,22 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-
+// User Class mapped to MongoDB document
 @Document(collection = "users")
 public class User {
-
     @Id
     private String id;
-
     @Field("user_name")
     private String userName;
-
     @Field("user_password")
     private String userPassword;
-
     @Field("tag_of_interest")
     private String tagOfInterest;
-
     @Field("join_data")
     private String joinData;
-
     @Field("chat_history")
     private String chatHistory;
+
 
     // Getters and Setters
     public String getId() {
