@@ -12,11 +12,10 @@ function App() {
 
   return (
     <Router>
-      <div className="flex flex-col min-h-screen bg-gray-100">
+<div className="flex flex-col min-h-screen bg-transparent">
         {/* Combined container for AuthPopup and CreateThread */}
         <div className="flex flex-col items-center space-y-4 mb-6">
           {!isAuthenticated && <AuthPopup />} {/* Auth component */}
-          <CreateThread /> {/* CreateThread component */}
         </div>
         <Routes>
           <Route path="/" element={<Home />} /> {/* Homepage route */}

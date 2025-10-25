@@ -57,7 +57,7 @@ const CreateThread = ({ onThreadCreated }) => {
   }
 
   return (
-    <div className="relative p-4 bg-white shadow-md rounded w-full max-w-lg mx-auto">
+    <div >
       <h2 className="text-xl font-bold mb-4">Create New Discussion :</h2>
       <input
         type="text"
