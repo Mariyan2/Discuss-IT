@@ -67,48 +67,108 @@ return (
       </div>
     </header>
 
-    {/* Breaking News */}
-    <h1 className="text-center text-3xl font-extrabold text-gray-600 mb-10 tracking-wide">
-      BREAKING NEWS!!
-    </h1>
+    {/* header */}
+<h1 className="text-center text-4xl font-semibold italic text-[#ffffff87] hover:text-[#c27dd0] mb-10 tracking-wide transition-colors duration-300 font-sans">
+  Top Discussions
+</h1>
 
-    {/* Featured Topics Carousel */}
-    <div
-      className="flex justify-center items-center mb-10 space-x-6"
-      onContextMenu={handleCarouselRightClick}
+{/* Featured Topics Carousel */}
+<div className="relative flex flex-col items-center mb-10">
+  {/* Title + Arrows */}
+{/* Arrows */}
+<div className="flex justify-between items-center w-full max-w-[1000px] mb-4">
+  {/* Left Arrow */}
+  <button
+    onClick={() =>
+      setCarouselIndex((prev) =>
+        prev > 0 ? prev - 1 : filteredTopics.length - 3
+      )
+    }
+    className="w-12 h-12 flex items-center justify-center rounded-full 
+               bg-white/10 backdrop-blur-md border border-white/20 
+               shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:scale-105 
+               hover:bg-white/20 active:scale-95 transition-all duration-300"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      stroke="white"
+      className="w-6 h-6 drop-shadow-md"
     >
-      {filteredTopics.slice(0, 3).map((topic) => (
-        <Link
-          key={topic.id}
-          to={`/discussion/${topic.id}`}
-          className="w-80 h-52 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg hover:shadow-xl transition duration-200 relative flex flex-col justify-end p-4"
-        >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+  </button>
+
+  {/* Right Arrow */}
+  <button
+    onClick={() =>
+      setCarouselIndex((prev) =>
+        prev < filteredTopics.length - 3 ? prev + 1 : 0
+      )
+    }
+    className="w-12 h-12 flex items-center justify-center rounded-full 
+               bg-white/10 backdrop-blur-md border border-white/20 
+               shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:scale-105 
+               hover:bg-white/20 active:scale-95 transition-all duration-300"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      stroke="white"
+      className="w-6 h-6 drop-shadow-md"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+  </button>
+</div>
+
+
+  {/* Carousel */}
+  <div className="flex justify-center items-center space-x-6 transition-all duration-500 ease-in-out">
+    {filteredTopics.slice(carouselIndex, carouselIndex + 3).map((topic) => (
+      <Link
+        key={topic.id}
+        to={`/discussion/${topic.id}`}
+        className="w-80 h-52 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 relative flex flex-col justify-between p-4"
+      >
+        {/* Top Row */}
+        <div className="flex justify-between items-center">
           <div
-            className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-semibold ${
-              categoryColors[topic.category?.toLowerCase()] || categoryColors.default
+            className={`px-3 py-1 rounded-full text-xs font-semibold ${
+              categoryColors[topic.category?.toLowerCase()] ||
+              categoryColors.default
             }`}
           >
             {topic.category}
           </div>
 
-          <h3 className="text-white text-xl font-semibold drop-shadow-sm">
-            {topic.topic}
-          </h3>
-
-          {/* Viewer bubble */}
-          <div className="absolute bottom-3 right-3">
-            <div className="relative w-[70px] h-[28px] flex items-center justify-end bg-gradient-to-r from-red-300 to-pink-300 text-red-900 font-semibold text-sm rounded-full shadow-md backdrop-blur-sm px-3">
-              <span className="pr-4">{topic.viewers || Math.floor(Math.random() * 3000)}</span>
-              <img
-                src={require("../images/viewer/viewerEmoji.png")}
-                alt="viewers"
-                className="w-8 h-8 absolute -top-2 -right-2"
-              />
-            </div>
+          {/* Viewer Bubble */}
+          <div className="relative w-[70px] h-[28px] flex items-center justify-end bg-gradient-to-r from-red-300 to-pink-300 text-red-900 font-semibold text-sm rounded-full shadow-md backdrop-blur-sm px-3">
+            <span className="pr-4">
+              {topic.viewers || Math.floor(Math.random() * 3000)}
+            </span>
+            <img
+              src={require("../images/viewer/viewerEmoji.png")}
+              alt="viewers"
+              className="w-8 h-8 absolute -top-2 -right-2"
+            />
           </div>
-        </Link>
-      ))}
-    </div>
+        </div>
+
+        {/* Title */}
+        <h3 className="text-white text-xl font-semibold italic drop-shadow-sm text-left">
+          {topic.topic}
+        </h3>
+      </Link>
+    ))}
+  </div>
+</div>
+
+
 
     {/* Grid of smaller topics */}
     <div className="grid grid-cols-4 gap-6">

@@ -14,6 +14,7 @@ const Discussion = () => {
   const [roomUrl, setRoomUrl] = useState(null);
   const loggedInUsername = localStorage.getItem("username") || "Anonymous";
 
+  
   useEffect(() => {
     fetch(`http://localhost:8080/api/discussions/${discussionId}`)
       .then((response) => response.json())
@@ -60,14 +61,19 @@ useEffect(() => {
       });
       setCallObject(instance);
 
-      instance
+    instance
         .join({ url: roomUrl })
-        .then(() => console.log("✅ Joined Daily room"))
+        .then(() => {
+          console.log("Joined Daily room");
+          instance.startTranscription()
+            .then(() => console.log("🎤 Transcription started"))
+            .catch((err) => console.error(" Failed to start transcription:", err));
+        })
         .catch((err) => {
-          console.error("❌ Error joining Daily room:", err);
+          console.error(" Error joining Daily room:", err);
         });
     } catch (err) {
-      console.error("❌ Failed to create Daily call object:", err);
+      console.error(" Failed to create Daily call object:", err);
     }
   }
   return () => {
@@ -95,6 +101,7 @@ const handleVote = (voteFor) => {
         console.error("Invalid response data:", updatedData);
         return;
       }
+
       setDiscussion({ ...updatedData });
     })
     .catch((error) => console.error("Error liking discussion:", error));
