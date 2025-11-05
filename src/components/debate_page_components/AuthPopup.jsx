@@ -1,4 +1,5 @@
 import  { useState, useEffect } from "react";
+
 //AuthPopup handles the user login / register
 const AuthPopup = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -80,35 +81,33 @@ const AuthPopup = () => {
     } else {
       alert("Please enter both username and password!");
     }
-  };
+  }
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setLoggedInUser(null);
-    localStorage.removeItem("username");
-    setUserData({
-      user_name: "",
-      user_password: "",
-      tag_of_interest: "",
-    });
-    alert("Logged out successfully");
-  };
+return (
+  <div>
+    {!isLoggedIn ? (
+      <div>
+        <button
+          onClick={() => setShowPopup(!showPopup)}
+          className="px-4 py-2 bg-blue-500 text-white rounded shadow-md hover:bg-blue-600"
+        >
+          {showPopup ? "Close" : "Register / Login"}
+        </button>
 
-  return (
-    <div className="fixed top-4 right-4 z-50">
-      {!isLoggedIn ? (
-        <div>
-          <button
-            onClick={() => setShowPopup(!showPopup)}
-            className="px-4 py-2 bg-blue-500 text-white rounded shadow-md hover:bg-blue-600"
-          >
-            {showPopup ? "Close" : "Register / Login"}
-          </button>
-          {showPopup && (
-            <div className="absolute right-0 mt-2 w-64 bg-white rounded shadow-lg border p-4">
+        {showPopup && (
+          <>
+            {/* Backdrop */}
+            <div
+              className="fixed inset-0 bg-black/30 backdrop-blur-sm z-[99990]"
+              onClick={() => setShowPopup(false)}
+            ></div>
+
+            {/* Popup */}
+            <div className="fixed top-24 right-10 w-72 bg-white/90 backdrop-blur-md rounded-xl shadow-xl border border-white/30 p-5 z-[99999]">
               <h2 className="text-lg font-bold mb-4 text-center">
                 {isRegisterMode ? "Register" : "Login"}
               </h2>
+
               <div className="flex flex-col space-y-4">
                 <input
                   type="text"
@@ -136,12 +135,14 @@ const AuthPopup = () => {
                     className="p-2 border border-gray-300 rounded"
                   />
                 )}
+
                 <button
                   onClick={isRegisterMode ? handleRegister : handleLogin}
                   className="w-full px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
                 >
                   {isRegisterMode ? "Register" : "Login"}
                 </button>
+
                 <button
                   onClick={() => setIsRegisterMode(!isRegisterMode)}
                   className="w-full px-4 py-2 text-blue-500 underline"
@@ -150,21 +151,23 @@ const AuthPopup = () => {
                 </button>
               </div>
             </div>
-          )}
-        </div>
-      ) : (
-        <div className="flex items-center space-x-4">
-          <p className="text-lg font-bold">Welcome, {loggedInUser}!</p>
-          <button
-            onClick={handleLogout}
-            className="px-4 py-2 bg-red-500 text-white rounded shadow-md hover:bg-red-600"
-          >
-            Logout
-          </button>
-        </div>
-      )}
-    </div>
-  );
+          </>
+        )}
+      </div>
+    ) : (
+      <p className="text-lg font-bold text-white">
+        {loggedInUser}
+      </p>
+    )}
+  </div>
+);
+
+};
+
+export const logoutUser = () => {
+  localStorage.removeItem("username");
+  alert("Logged out successfully");
+  window.location.reload();
 };
 
 export default AuthPopup;

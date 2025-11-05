@@ -82,7 +82,7 @@ useEffect(() => {
       callObject.destroy();
     }
   };
-}, [roomUrl]);
+}, [roomUrl, callObject]);
 
 
 

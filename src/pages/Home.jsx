@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "../components/debate_page_components/search-bar";
 import CreateThread from "../components/debate_page_components/create-thread"; 
+import AuthPopup from "../components/debate_page_components/AuthPopup";
 
 const Home = () => {
   const [topics, setTopics] = useState([]);
@@ -47,25 +48,37 @@ const Home = () => {
       )
     );
   }, [searchQuery, topics]);
-
 return (
   <div className="fixed inset-0 bg-gradient-to-b from-[#6c2bb2] to-[#898c8b55] min-h-screen p-8">
     {/* Header */}
     <header className="flex items-center justify-between mb-10">
-      <Link to="/">
-        <img
-          src={require("../images/thumbnail.png")}
-          alt="Home"
-          className="cursor-pointer w-[180px]"
-        />
-      </Link>
+      {/* Left side: Logo + SearchBar */}
+      <div className="flex items-center space-x-6">
+        <Link to="/">
+          <img
+            src={require("../images/thumbnail.png")}
+            alt="Home"
+            className="cursor-pointer w-[180px]"
+          />
+        </Link>
 
-      {/* Create Discussion here */}
-      <div className="flex items-center space-x-4">
+        {/* Search Bar next to logo */}
+        <div>
+          <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        </div>
+      </div>
+
+      {/* Right side: AuthPopup + Create Discussion */}
+      <div className="flex items-center space-x-4 bg-white/10 backdrop-blur-md border border-white/20 px-6 py-3 rounded-full shadow-md">
+        {/* AuthPopup handles login/register/logout */}
+        <AuthPopup />
+
+        {/* Create Discussion Button */}
         <CreateThread />
-        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </div>
     </header>
+
+
 
     {/* header */}
 <h1 className="text-center text-4xl font-semibold italic text-[#ffffff87] hover:text-[#c27dd0] mb-10 tracking-wide transition-colors duration-300 font-sans">
@@ -73,7 +86,7 @@ return (
 </h1>
 
 {/* Featured Topics Carousel */}
-<div className="relative flex flex-col items-center mb-10">
+<div className="relative flex flex-col items-center mb-10 w-[55%] mx-auto z-0">
   {/* Title + Arrows */}
 {/* Arrows */}
 <div className="flex justify-between items-center w-full max-w-[1000px] mb-4">
@@ -167,8 +180,6 @@ return (
     ))}
   </div>
 </div>
-
-
 
     {/* Grid of smaller topics */}
     <div className="grid grid-cols-4 gap-6">
