@@ -109,116 +109,121 @@ const handleVote = (voteFor) => {
   
   
 
-  return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
-      {/* Header Section */}
-      <div className="p-4 relative">
-        <div className="absolute top-4 left-4">
-          <Link to="/">
-            <img
-              src={require("../images/thumbnail.png")}
-              alt="Home"
-              style={{ width: "200px", height: "176px" }}
-              className="cursor-pointer"
-            />
-          </Link>
-        </div>
+return (
+  <div className="fixed inset-0 bg-gradient-to-b from-[#6c2bb2] to-[#898c8b55] text-white overflow-hidden">
+    <div className="min-h-screen p-8">
+      {/* Header */}
+      <header className="flex items-center justify-between mb-10">
+        <Link to="/">
+          <img
+            src={require("../images/thumbnail.png")}
+            alt="Home"
+            className="cursor-pointer w-[180px] drop-shadow-md"
+          />
+        </Link>
+
         {discussion ? (
-          <Header title={discussion.topic} />
+          <h1 className="text-3xl font-bold italic text-white/90 drop-shadow-sm">
+            {discussion.topic}
+          </h1>
         ) : (
-          <h2 className="text-center text-xl">Loading discussion...</h2>
+          <h1 className="text-3xl italic text-white/70">Loading Discussion...</h1>
+        )}
+      </header>
+
+      {/* Approval Bar */}
+      <div className="flex justify-center mb-12">
+        <div className="w-[65%] bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 shadow-lg">
+          {discussion ? (
+            <ApprovalBar
+              leftPercentage={discussion.leftAgreeRatio}
+              rightPercentage={discussion.rightAgreeRatio}
+              leftProfilePic={
+                discussion.creatorProfilePic ||
+                "https://res.cloudinary.com/dynttd3fe/image/upload/v1741538246/iqvksgclnh4cuxlokont.jpg"
+              }
+              rightProfilePic={
+                discussion.opponentProfilePic ||
+                "https://res.cloudinary.com/dynttd3fe/image/upload/v1741538246/iqvksgclnh4cuxlokont.jpg"
+              }
+            />
+          ) : (
+            <ApprovalBar
+              leftPercentage={50}
+              rightPercentage={50}
+              leftProfilePic="https://res.cloudinary.com/dynttd3fe/image/upload/v1741538246/iqvksgclnh4cuxlokont.jpg"
+              rightProfilePic="https://res.cloudinary.com/dynttd3fe/image/upload/v1741538246/iqvksgclnh4cuxlokont.jpg"
+            />
+          )}
+        </div>
+      </div>
+
+      {/* Main Section */}
+      <div className="flex space-x-6 mb-12 justify-center">
+        {/* Left (Creator) */}
+        <div className="flex-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl shadow-md p-6 flex flex-col items-center">
+          <h3 className="text-2xl font-semibold mb-4 italic text-white/90">
+            {discussion?.creator || "Waiting..."}
+          </h3>
+          {callObject ? (
+            <CustomVideoContainer callObject={callObject} userType="left" />
+          ) : (
+            <p className="text-white/60">Loading video...</p>
+          )}
+          <Handles />
+          <button
+            className="mt-4 w-[80%] py-2 bg-blue-500/30 border border-blue-300/40 rounded-full 
+                       hover:bg-blue-500/40 transition-all shadow-md font-semibold"
+            onClick={() => handleVote("creator")}
+          >
+            Like
+          </button>
+        </div>
+
+        {/* Right (Opponent) */}
+        <div className="flex-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl shadow-md p-6 flex flex-col items-center">
+          <h3 className="text-2xl font-semibold mb-4 italic text-white/90">
+            {discussion?.opponent || "Waiting for opponent..."}
+          </h3>
+          {callObject ? (
+            <CustomVideoContainer callObject={callObject} userType="right" />
+          ) : (
+            <p className="text-white/60">Loading video...</p>
+          )}
+          <Handles />
+          <button
+            className="mt-4 w-[80%] py-2 bg-red-500/30 border border-red-300/40 rounded-full 
+                       hover:bg-red-500/40 transition-all shadow-md font-semibold"
+            onClick={() => handleVote("opponent")}
+          >
+            Like
+          </button>
+        </div>
+
+        {/* Chat */}
+        {discussion ? (
+          <ChatApp
+            discussionId={discussionId}
+            chatMessages={discussion.chat || []}
+            loggedInUsername={loggedInUsername}
+          />
+        ) : (
+          <div className="w-[28%] bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl shadow-md p-6 flex flex-col items-center justify-center">
+            <h3 className="text-xl font-semibold mb-4 text-center text-white/80">Live Chat</h3>
+            <p className="text-white/70 text-center">Loading chat...</p>
+          </div>
         )}
       </div>
 
-{/* Approval Bar Section */}
-<div className="flex justify-center p-4">
-  <div className="w-2/3">
-    {discussion ? (
-     <ApprovalBar
-     leftPercentage={discussion.leftAgreeRatio}
-     rightPercentage={discussion.rightAgreeRatio}
-     leftProfilePic={
-       discussion.creatorProfilePic
-         ? discussion.creatorProfilePic
-         : "https://res.cloudinary.com/dynttd3fe/image/upload/v1741538246/iqvksgclnh4cuxlokont.jpg"
-     }
-     rightProfilePic={
-       discussion.opponentProfilePic
-         ? discussion.opponentProfilePic
-         : "https://res.cloudinary.com/dynttd3fe/image/upload/v1741538246/iqvksgclnh4cuxlokont.jpg"
-     }
-   />
-       ) : (
-      <ApprovalBar
-        leftPercentage={50}
-        rightPercentage={50}
-        leftProfilePic="https://res.cloudinary.com/dynttd3fe/image/upload/v1741538246/iqvksgclnh4cuxlokont.jpg"
-        rightProfilePic="https://res.cloudinary.com/dynttd3fe/image/upload/v1741538246/iqvksgclnh4cuxlokont.jpg"
-      />
-    )}
-  </div>
-</div>
-
-
-
-      {/* Main Content Section */}
-      <div className="flex flex-col p-4 space-y-4">
-        <div className="flex space-x-4">
-          {/* Left Video Container (Creator) */}
-          <div className="flex-1 flex flex-col bg-gray-200 rounded p-4">
-            <h3 className="text-center font-bold text-2xl mb-4">
-              {discussion?.creator || "Waiting..."}
-            </h3>
-            {callObject ? <CustomVideoContainer callObject={callObject} userType="left" /> : <p>Loading video...</p>}
-            <div className="mt-4">
-              <Handles />
-            </div>
-            <button
-              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-              onClick={() => handleVote("creator")}
-            >
-              👍 Like
-            </button>
-          </div>
-
-          {/* Right Video Container (Opponent) */}
-          <div className="flex-1 flex flex-col bg-gray-200 rounded p-4">
-            <h3 className="text-center font-bold text-2xl mb-4">
-              {discussion?.opponent || "Waiting for opponent..."}
-            </h3>
-            {callObject ? <CustomVideoContainer callObject={callObject} userType="right" /> : <p>Loading video...</p>}
-            <div className="mt-4">
-              <Handles />
-            </div>
-            <button
-              className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-              onClick={() => handleVote("opponent")}
-            >
-              👍 Like
-            </button>
-          </div>
-
-          {/* Chat Section */}
-          <div className="w-1/3 bg-gray-100 rounded p-4">
-            {discussion ? (
-              <ChatApp
-                discussionId={discussionId}
-                chatMessages={discussion.chat || []}
-                loggedInUsername={loggedInUsername}
-              />
-            ) : (
-              <p>Loading chat...</p>
-            )}
-          </div>
-        </div>
-
-        {/* Viewers Section */}
-        <div className="bg-gray-200 rounded p-4">
-          <Viewers />
-        </div>
+      {/* Viewers */}
+      <div className="w-[70%] mx-auto bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl shadow-md p-6">
+        <Viewers />
       </div>
     </div>
-  );
+  </div>
+);
+
+
 };
 
 export default Discussion;

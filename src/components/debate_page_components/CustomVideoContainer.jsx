@@ -36,13 +36,11 @@ const CustomVideoContainer = ({ callObject, userType }) => {
   }, [callObject, userType]);
 
   return (
-    <div
-      ref={videoRef}
-      className={`flex-1 flex justify-center items-center bg-gray-800 rounded-md overflow-hidden ${
-        userType === "left" ? "border-blue-500" : "border-red-500"
-      }`}
-      style={{ height: "500px", borderWidth: "3px" }}
-    ></div>
+   <div
+  ref={videoRef}
+  className="flex-1 flex justify-center items-center bg-white/10 backdrop-blur-md rounded-3xl overflow-hidden border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.2)]"
+  style={{ height: "500px" }}
+></div>
   );
 };
 

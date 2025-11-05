@@ -1,10 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+body { margin: 0; background: transparent; }
 
 html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none;
+  background: transparent;
+  overflow-x: hidden;
+}
+#root {
   margin: 0;
   padding: 0;
-  background-color: transparent !important;
-  overflow-x: hidden;
 }

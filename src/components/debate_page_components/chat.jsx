@@ -51,34 +51,36 @@ const ChatApp = ({ discussionId, chatMessages }) => {
   }, [messages]);
 
   return (
-    <div className="h-full bg-gray-200 p-4 shadow-lg">
-      <h1 className="text-lg font-bold mb-4">Chat</h1>
-      <div
-        ref={chatContainerRef}
-        className="flex flex-col overflow-y-auto"
-        style={{ height: "697px" }}
-      >
-        {messages.map((msg, index) => (
-          <div key={index} className="p-2 bg-gray-200 rounded mb-1">
-            <p>
-              <strong>{msg.username || "Anonymous"}:</strong> {msg.message}
-            </p>
-          </div>
-        ))}
-      </div>
+  <div className="w-[28%] bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl shadow-md p-6 flex flex-col">
+    <h3 className="text-xl font-semibold mb-4 text-center text-white">Live Chat</h3>
 
-      <div className="flex items-center space-x-2">
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          onKeyPress={(e) => e.key === "Enter" && handleSend()}
-          placeholder="Type a message"
-          className="flex-grow p-2 border border-gray-300 rounded"
-        />
-      </div>
+    <div
+      ref={chatContainerRef}
+      className="flex flex-col overflow-y-auto space-y-2 mb-4"
+      style={{ height: "600px" }}
+    >
+      {messages.map((msg, index) => (
+        <div key={index} className="p-2 bg-white/20 backdrop-blur-sm rounded">
+          <p className="text-black text-xl">
+            <strong>{msg.username || "Anonymous"}:</strong> {msg.message}
+          </p>
+        </div>
+      ))}
     </div>
-  );
+
+    <div className="flex items-center space-x-2">
+      <input
+        type="text"
+        value={newMessage}
+        onChange={(e) => setNewMessage(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && handleSend()}
+        placeholder="Type a message..."
+        className="flex-grow p-2 bg-white/20 border border-white/30 text-white text-xl placeholder-white/60 rounded focus:outline-none focus:ring-2 focus:ring-purple-300"
+      />
+    </div>
+  </div>
+);
+
 };
 
 export default ChatApp;
