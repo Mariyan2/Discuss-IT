@@ -52,7 +52,7 @@ const Handles = () => {
       />
 
       <p className="text-green-600 font-semibold mb-5 text-lg">
-        {copied ? "✅ Link copied to clipboard!" : ""}
+        {copied ? "Link copied to clipboard!" : ""}
       </p>
     </div>
   </div>

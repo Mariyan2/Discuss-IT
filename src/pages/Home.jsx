@@ -21,11 +21,6 @@ const Home = () => {
     default: "bg-gray-100 text-gray-500",
   };
 
-  const handleCarouselRightClick = (e) => {
-    e.preventDefault();
-    setCarouselIndex((prev) => (prev + 1) % Math.min(3, filteredTopics.length));
-  };
-
   // Fetch discussions
   useEffect(() => {
     fetch("/api/discussions")
@@ -141,36 +136,37 @@ return (
 
 
   {/* Carousel */}
-  <div className="flex justify-center items-center space-x-6 transition-all duration-500 ease-in-out">
-    {filteredTopics.slice(carouselIndex, carouselIndex + 3).map((topic) => (
-      <Link
-        key={topic.id}
-        to={`/discussion/${topic.id}`}
-        className="w-80 h-52 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 relative flex flex-col justify-between p-4"
-      >
-        {/* Top Row */}
-        <div className="flex justify-between items-center">
-          <div
-            className={`px-3 py-1 rounded-full text-xs font-semibold ${
-              categoryColors[topic.category?.toLowerCase()] ||
-              categoryColors.default
-            }`}
-          >
-            {topic.category}
-          </div>
-
-          {/* Viewer Bubble */}
-          <div className="relative w-[70px] h-[28px] flex items-center justify-end bg-gradient-to-r from-red-300 to-pink-300 text-red-900 font-semibold text-sm rounded-full shadow-md backdrop-blur-sm px-3">
-            <span className="pr-4">
-              {topic.viewers || Math.floor(Math.random() * 3000)}
-            </span>
-            <img
-              src={require("../images/viewer/viewerEmoji.png")}
-              alt="viewers"
-              className="w-8 h-8 absolute -top-2 -right-2"
-            />
-          </div>
+<div className="flex justify-center items-center space-x-8">
+  {filteredTopics.slice(carouselIndex, carouselIndex + 3).map((topic, index) => (
+    <Link
+      key={topic.id}
+      to={`/discussion/${topic.id}`}
+      className={`relative flex flex-col justify-between p-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl shadow-lg 
+        ${index === 1 ? "w-[400px] h-[260px] scale-110 border-white/30" : "w-[360px] h-[230px] opacity-85"}
+      `}
+    >
+      {/* Top Row */}
+      <div className="flex justify-between items-center">
+        <div
+          className={`px-3 py-1 rounded-full text-xs font-semibold ${
+            categoryColors[topic.category?.toLowerCase()] || categoryColors.default
+          }`}
+        >
+          {topic.category}
         </div>
+
+        {/* Viewer Bubble */}
+        <div className="relative w-[70px] h-[28px] flex items-center justify-end bg-gradient-to-r from-red-300 to-pink-300 text-red-900 font-semibold text-sm rounded-full shadow-md backdrop-blur-sm px-3">
+          <span className="pr-4">
+            {topic.viewers || Math.floor(Math.random() * 3000)}
+          </span>
+          <img
+            src={require("../images/viewer/viewerEmoji.png")}
+            alt="viewers"
+            className="w-8 h-8 absolute -top-2 -right-2"
+          />
+        </div>
+      </div>
 
         {/* Title */}
         <h3 className="text-white text-xl font-semibold italic drop-shadow-sm text-left">

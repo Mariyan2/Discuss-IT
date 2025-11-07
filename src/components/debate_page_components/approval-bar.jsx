@@ -14,13 +14,13 @@ const ApprovalBar = ({
         alt="Left User"
         className="w-20 h-20 rounded-full object-cover"
       />
-      <div className="flex h-5 flex-grow bg-gray-300 rounded overflow-hidden">
+      <div className="relative flex w-full h-6 rounded-full overflow-hidden bg-white/10 backdrop-blur-md border border-white/20 shadow-md">
         <div
-          className="bg-blue-500 transition-all duration-300"
+          className="bg-gradient-to-r from-blue-400/60 to-blue-500/50 backdrop-blur-sm transition-all duration-500 ease-in-out"
           style={{ width: `${leftPercentage}%` }}
         />
         <div
-          className="bg-red-500 transition-all duration-300"
+          className="bg-gradient-to-r from-red-400/50 to-red-500/50 backdrop-blur-sm transition-all duration-500 ease-in-out"
           style={{ width: `${rightPercentage}%` }}
         />
       </div>

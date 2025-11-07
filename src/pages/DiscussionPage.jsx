@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import Header from "../components/debate_page_components/header";
 import Viewers from "../components/debate_page_components/viewers";
 import ApprovalBar from "../components/debate_page_components/approval-bar";
 import CustomVideoContainer from "../components/debate_page_components/CustomVideoContainer";
 import ChatApp from "../components/debate_page_components/chat";
 import Handles from "../components/debate_page_components/handles";
 import DailyIframe from "@daily-co/daily-js";
-
+import LiveSubtitles from "../components/debate_page_components/LiveSubtitles";
 const Discussion = () => {
   const { discussionId } = useParams();  // Grab discussionId from route params
   const [discussion, setDiscussion] = useState(null);
@@ -55,27 +54,29 @@ const [callObject, setCallObject] = useState(null);
 
 useEffect(() => {
   if (roomUrl && !callObject) {
-    try {
-      const instance = DailyIframe.createCallObject({
-        subscribeToTracksAutomatically: true,
-      });
-      setCallObject(instance);
+    const instance = DailyIframe.createCallObject({
+      subscribeToTracksAutomatically: true,
+    });
+    setCallObject(instance);
 
-    instance
-        .join({ url: roomUrl })
-        .then(() => {
-          console.log("Joined Daily room");
-          instance.startTranscription()
-            .then(() => console.log("🎤 Transcription started"))
-            .catch((err) => console.error(" Failed to start transcription:", err));
-        })
-        .catch((err) => {
-          console.error(" Error joining Daily room:", err);
-        });
-    } catch (err) {
-      console.error(" Failed to create Daily call object:", err);
-    }
+    const username = localStorage.getItem("username") || "Guest";
+
+    fetch(`http://localhost:8080/api/daily/get-token/${discussionId}?user=${username}`)
+      .then(res => res.text())
+      .then(token => {
+        instance
+          .join({ url: roomUrl, token })
+          .then(() => {
+            console.log("Joined Daily room with transcription admin rights");
+            return instance.setUserName(username);
+          })
+          .then(() => instance.startTranscription())
+          .then(() => console.log("🎤 Transcription started"))
+          .catch(err => console.error("Error during join setup:", err));
+      })
+      .catch(err => console.error("Error fetching Daily token:", err));
   }
+
   return () => {
     if (callObject) {
       callObject.leave();
@@ -83,6 +84,7 @@ useEffect(() => {
     }
   };
 }, [roomUrl, callObject]);
+
 
 
 
@@ -113,7 +115,7 @@ return (
   <div className="fixed inset-0 bg-gradient-to-b from-[#6c2bb2] to-[#898c8b55] text-white overflow-hidden">
     <div className="min-h-screen p-8">
       {/* Header */}
-      <header className="flex items-center justify-between mb-10">
+      <header className="flex items-center justify-between mb-4">
         <Link to="/">
           <img
             src={require("../images/thumbnail.png")}
@@ -121,18 +123,20 @@ return (
             className="cursor-pointer w-[180px] drop-shadow-md"
           />
         </Link>
+      </header>
 
+      {/* Title + Approval Bar */}
+      <div className="flex flex-col items-center mb-12">
+        {/* Title */}
         {discussion ? (
-          <h1 className="text-3xl font-bold italic text-white/90 drop-shadow-sm">
+          <h1 className="text-4xl font-bold italic text-white/90 drop-shadow-sm mb-6 text-center">
             {discussion.topic}
           </h1>
         ) : (
-          <h1 className="text-3xl italic text-white/70">Loading Discussion...</h1>
+          <h1 className="text-3xl italic text-white/70 mb-6 text-center">Loading Discussion...</h1>
         )}
-      </header>
 
-      {/* Approval Bar */}
-      <div className="flex justify-center mb-12">
+        {/* Approval Bar */}
         <div className="w-[65%] bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 shadow-lg">
           {discussion ? (
             <ApprovalBar
@@ -162,14 +166,17 @@ return (
       <div className="flex space-x-6 mb-12 justify-center">
         {/* Left (Creator) */}
         <div className="flex-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl shadow-md p-6 flex flex-col items-center">
-          <h3 className="text-2xl font-semibold mb-4 italic text-white/90">
+          <h3 className="text-3xl font-semibold mb-4 italic text-white/90">
             {discussion?.creator || "Waiting..."}
           </h3>
-          {callObject ? (
-            <CustomVideoContainer callObject={callObject} userType="left" />
-          ) : (
-            <p className="text-white/60">Loading video...</p>
-          )}
+                  {callObject ? (
+                <>
+                  <CustomVideoContainer callObject={callObject} userType="left" />
+                  <LiveSubtitles callObject={callObject} />
+                </>
+              ) : (
+                <p className="text-white/60">Loading video...</p>
+              )}
           <Handles />
           <button
             className="mt-4 w-[80%] py-2 bg-blue-500/30 border border-blue-300/40 rounded-full 
@@ -182,7 +189,7 @@ return (
 
         {/* Right (Opponent) */}
         <div className="flex-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl shadow-md p-6 flex flex-col items-center">
-          <h3 className="text-2xl font-semibold mb-4 italic text-white/90">
+          <h3 className="text-3xl font-semibold mb-4 italic text-white/90">
             {discussion?.opponent || "Waiting for opponent..."}
           </h3>
           {callObject ? (
@@ -222,6 +229,7 @@ return (
     </div>
   </div>
 );
+
 
 
 };

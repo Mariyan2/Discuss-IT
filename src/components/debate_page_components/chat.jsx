@@ -52,7 +52,7 @@ const ChatApp = ({ discussionId, chatMessages }) => {
 
   return (
   <div className="w-[28%] bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl shadow-md p-6 flex flex-col">
-    <h3 className="text-xl font-semibold mb-4 text-center text-white">Live Chat</h3>
+    <h3 className="text-2xl font-semibold mb-4 text-center text-white">Stream Chat</h3>
 
     <div
       ref={chatContainerRef}

@@ -19,5 +19,13 @@ public class DailyController {
     public ResponseEntity<String> getRoom(@PathVariable String discussionId) {
         return dailyService.getRoom(discussionId);
     }
+    
+    @GetMapping("/get-token/{roomName}")
+    public ResponseEntity<String> getMeetingToken(
+            @PathVariable String roomName,
+            @RequestParam String user) {
+        return dailyService.getMeetingToken(roomName, user);
+    }
+
 }
 
