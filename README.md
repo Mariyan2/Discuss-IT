@@ -104,10 +104,4 @@ Integrated with **Daily.co API**
   <img width="80%" alt="MongoDB Logo" src="https://github.com/user-attachments/assets/e83c7197-218f-4820-8868-e01879f83665" />
 </p>
 
-### 📷 Image Upload (Not Fully Implemented)  
-**Cloudinary API**
-
-<p align="center">
-  <img width="25%" alt="Cloudinary Logo" src="https://github.com/user-attachments/assets/5805867e-1d6a-4d2b-ab8e-84a79be1c439" />
-</p>
 
