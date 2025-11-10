@@ -1,21 +1,16 @@
 <h1 align="center">💬 DiscussIT</h1>
 
-
-
 <h3 align="left" style="font-weight: 400; line-height: 1.6;">
-DiscussIT is a multilingual social media platform focused on creating live-streamed discussions that are translated in real time.<br><br>
-It automatically transcribes and translates live speech — allowing seamless communication across 91+ different languages.
+DiscussIT is a multilingual social media platform designed for hosting and joining live, interactive conversations between people who speak different languages.<br><br>
+It automatically transcribes and translates speech in real time — allowing seamless communication across <b>91</b> different languages.
 </h3>
-
-
-
 
 ---
 
 ## 🏠 Home Page
 
-Users can browse and join discussions based around their interests.  
-The topics have a title, colour-coded category and a live viewer count.
+Users can explore and join ongoing conversations based on their interests.  
+Each topic includes a title, colour-coded category, and live viewer count.
 
 <p align="center">
   <img width="90%" alt="Home Page" src="https://github.com/user-attachments/assets/5741cc00-5e63-4e7f-9ea5-4f1dc20c8fee" />
@@ -23,9 +18,9 @@ The topics have a title, colour-coded category and a live viewer count.
 
 ---
 
-## 🗣️ Create Your Own Discussion
+## 🗣️ Create Your Own Room
 
-Start your own debates and assign categories like **News**, **Gaming**, or **Culture** — helping others find relevant topics easily.
+Users can start their own live sessions and assign categories such as **News**, **Gaming**, or **Culture** — making it easier for others to discover and join relevant topics.
 
 <p align="center">
   <img width="70%" alt="Create Discussion" src="https://github.com/user-attachments/assets/e490c2dc-567b-4492-ab91-9297e62c6fd7" />
@@ -35,22 +30,21 @@ Start your own debates and assign categories like **News**, **Gaming**, or **Cul
 
 ## 🌐 Real-Time Captions & Translation
 
-Features **live translated captions** supporting **91+ languages** via a self-hosted **LibreTranslate** server.  
+DiscussIT provides **live-translated captions** powered by a self-hosted **LibreTranslate** server, supporting **91 languages**.  
+
+Transcriptions and translations appear smoothly beneath each participant’s video feed, enabling effortless multilingual communication.
 
 <p align="center">
   <img width="90%" alt="Live Translation" src="https://github.com/user-attachments/assets/5973e999-2f57-4b3f-b910-4709bce46e00" />
-
-  Transcriptions and translations appear beneath each speaker’s video feed in real time.
-
-  <img width="90%"  alt="image" src="https://github.com/user-attachments/assets/ef8091ee-8b52-45ad-824a-047209fc633f" />
-
+  <br><br>
+  <img width="90%" alt="Caption Example" src="https://github.com/user-attachments/assets/ef8091ee-8b52-45ad-824a-047209fc633f" />
 </p>
 
 ---
 
 ## 💬 Interactive Stream Chat
 
-Viewers have the ability to send live messages during discussions.
+Viewers can send live messages during broadcasts, promoting real-time engagement and participation.
 
 <p align="center">
   <img width="70%" alt="Chat Feature" src="https://github.com/user-attachments/assets/afd8ef82-be39-4111-9147-ef5243c794da" />
@@ -60,14 +54,12 @@ Viewers have the ability to send live messages during discussions.
 
 ## ❤️ Audience Reactions
 
-Viewers have the option to like participants.
+Participants can receive live feedback from viewers through likes and reactions.  
+These contribute to the **Favourability Meter**, a visual indicator reflecting audience sentiment in real time.
 
 <p align="center">
   <img width="90%" alt="Likes and Meter" src="https://github.com/user-attachments/assets/a7fdf24d-6efd-44eb-b2d1-c404aab54869" />
   <br><br>
-
-  
- These likes influence the **Favourability Meter**, a bar showcasing collective opinion.
   <img width="90%" alt="Meter Example" src="https://github.com/user-attachments/assets/4964ba5e-2465-4981-8959-dbd76825aaa8" />
 </p>
 
@@ -76,7 +68,8 @@ Viewers have the option to like participants.
 ## ⚙️ Tech Stack
 
 ### 🖥️ Frontend  
-Built with **React** and **Tailwind CSS** 
+Built with **React** and **Tailwind CSS** for a modern, responsive, and user-friendly interface.
+
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/63d0515f-5947-4f99-bb34-9188bd75c9a4" alt="React Logo" width="180"/>
