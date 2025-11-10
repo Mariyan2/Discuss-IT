@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "../components/debate_page_components/search-bar";
-import CreateThread from "../components/debate_page_components/create-thread"; 
+import CreateThread from "../components/debate_page_components/create-thread";
 import AuthPopup from "../components/debate_page_components/AuthPopup";
+import CarouselCard from "../components/debate_page_components/CarouselCard";
+import SmallTopicCards from "../components/debate_page_components/SmallTopicCards";
 
 const Home = () => {
   const [topics, setTopics] = useState([]);
@@ -43,177 +45,106 @@ const Home = () => {
       )
     );
   }, [searchQuery, topics]);
-return (
-  <div className="fixed inset-0 bg-gradient-to-b from-[#6c2bb2] to-[#898c8b55] min-h-screen p-8">
-    {/* Header */}
-    <header className="flex items-center justify-between mb-10">
-      {/* Left side: Logo + SearchBar */}
-      <div className="flex items-center space-x-6">
-        <Link to="/">
-          <img
-            src={require("../images/thumbnail.png")}
-            alt="Home"
-            className="cursor-pointer w-[180px]"
-          />
-        </Link>
+  return (
+    <div className="fixed inset-0 bg-gradient-to-b from-[#6c2bb2] to-[#898c8b55] min-h-screen p-8">
+      {/* Header */}
+      <header className="flex items-center justify-between mb-10">
+        {/* Left side: Logo + SearchBar */}
+        <div className="flex items-center space-x-6">
+          <Link to="/">
+            <img
+              src={require("../images/thumbnail.png")}
+              alt="Home"
+              className="cursor-pointer w-[180px]"
+            />
+          </Link>
 
-        {/* Search Bar next to logo */}
-        <div>
-          <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        </div>
-      </div>
-
-      {/* Right side: AuthPopup + Create Discussion */}
-      <div className="flex items-center space-x-4 bg-white/10 backdrop-blur-md border border-white/20 px-6 py-3 rounded-full shadow-md">
-        {/* AuthPopup handles login/register/logout */}
-        <AuthPopup />
-
-        {/* Create Discussion Button */}
-        <CreateThread />
-      </div>
-    </header>
-
-
-
-    {/* header */}
-<h1 className="text-center text-4xl font-semibold italic text-[#ffffff87] hover:text-[#c27dd0] mb-10 tracking-wide transition-colors duration-300 font-sans">
-  Top Discussions
-</h1>
-
-{/* Featured Topics Carousel */}
-<div className="relative flex flex-col items-center mb-10 w-[55%] mx-auto z-0">
-  {/* Title + Arrows */}
-{/* Arrows */}
-<div className="flex justify-between items-center w-full max-w-[1000px] mb-4">
-  {/* Left Arrow */}
-  <button
-    onClick={() =>
-      setCarouselIndex((prev) =>
-        prev > 0 ? prev - 1 : filteredTopics.length - 3
-      )
-    }
-    className="w-12 h-12 flex items-center justify-center rounded-full 
-               bg-white/10 backdrop-blur-md border border-white/20 
-               shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:scale-105 
-               hover:bg-white/20 active:scale-95 transition-all duration-300"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={2}
-      stroke="white"
-      className="w-6 h-6 drop-shadow-md"
-    >
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-    </svg>
-  </button>
-
-  {/* Right Arrow */}
-  <button
-    onClick={() =>
-      setCarouselIndex((prev) =>
-        prev < filteredTopics.length - 3 ? prev + 1 : 0
-      )
-    }
-    className="w-12 h-12 flex items-center justify-center rounded-full 
-               bg-white/10 backdrop-blur-md border border-white/20 
-               shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:scale-105 
-               hover:bg-white/20 active:scale-95 transition-all duration-300"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={2}
-      stroke="white"
-      className="w-6 h-6 drop-shadow-md"
-    >
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-    </svg>
-  </button>
-</div>
-
-
-  {/* Carousel */}
-<div className="flex justify-center items-center space-x-8">
-  {filteredTopics.slice(carouselIndex, carouselIndex + 3).map((topic, index) => (
-    <Link
-      key={topic.id}
-      to={`/discussion/${topic.id}`}
-      className={`relative flex flex-col justify-between p-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl shadow-lg 
-        ${index === 1 ? "w-[400px] h-[260px] scale-110 border-white/30" : "w-[360px] h-[230px] opacity-85"}
-      `}
-    >
-      {/* Top Row */}
-      <div className="flex justify-between items-center">
-        <div
-          className={`px-3 py-1 rounded-full text-xs font-semibold ${
-            categoryColors[topic.category?.toLowerCase()] || categoryColors.default
-          }`}
-        >
-          {topic.category}
-        </div>
-
-        {/* Viewer Bubble */}
-        <div className="relative w-[70px] h-[28px] flex items-center justify-end bg-gradient-to-r from-red-300 to-pink-300 text-red-900 font-semibold text-sm rounded-full shadow-md backdrop-blur-sm px-3">
-          <span className="pr-4">
-            {topic.viewers || Math.floor(Math.random() * 3000)}
-          </span>
-          <img
-            src={require("../images/viewer/viewerEmoji.png")}
-            alt="viewers"
-            className="w-8 h-8 absolute -top-2 -right-2"
-          />
-        </div>
-      </div>
-
-        {/* Title */}
-        <h3 className="text-white text-xl font-semibold italic drop-shadow-sm text-left">
-          {topic.topic}
-        </h3>
-      </Link>
-    ))}
-  </div>
-</div>
-
-    {/* Grid of smaller topics */}
-    <div className="grid grid-cols-4 gap-6">
-      {filteredTopics.slice(3).map((topic) => (
-        <Link
-          key={topic.id}
-          to={`/discussion/${topic.id}`}
-          className="relative h-36 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-transform duration-300 flex flex-col justify-between p-4"
-        >
-          <div
-            className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-semibold ${
-              categoryColors[topic.category?.toLowerCase()] || categoryColors.default
-            }`}
-          >
-            {topic.category}
+          {/* Search Bar next to logo */}
+          <div>
+            <SearchBar
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+            />
           </div>
+        </div>
 
-          <h3 className="mt-6 text-white font-semibold text-lg leading-snug drop-shadow-sm line-clamp-2">
-            {topic.topic}
-          </h3>
+        {/* Right side: AuthPopup + Create Discussion */}
+        <div className="flex items-center space-x-4 bg-white/10 backdrop-blur-md border border-white/20 px-6 py-3 rounded-full shadow-md">
+          {/* AuthPopup handles login/register/logout */}
+          <AuthPopup />
 
-          {/* Viewer bubble */}
-          <div className="absolute bottom-3 right-3">
-            <div className="relative w-[70px] h-[28px] flex items-center justify-end bg-gradient-to-r from-red-300 to-pink-300 text-red-900 font-semibold text-sm rounded-full shadow-md backdrop-blur-sm px-3">
-              <span className="pr-4">{topic.viewers || Math.floor(Math.random() * 300)}</span>
-              <img
-                src={require("../images/viewer/viewerEmoji.png")}
-                alt="viewers"
-                className="w-8 h-8 absolute -top-2 -right-2"
+          {/* Create Discussion Button */}
+          <CreateThread />
+        </div>
+      </header>
+
+      {/* header */}
+      <h1 className="text-center text-4xl font-semibold italic text-[#ffffff87] hover:text-[#c27dd0] mb-10 tracking-wide transition-colors duration-300 font-sans">
+        Top Discussions
+      </h1>
+      {/* Carousel Wrapper with side arrows */}
+      <div className="relative flex justify-center items-center w-full max-w-[1000px] mx-auto mb-10">
+        {/* Left Arrow */}
+        <button
+          onClick={() =>
+            setCarouselIndex((prev) =>
+              prev > 0 ? prev - 1 : filteredTopics.length - 3
+            )
+          }
+          className="absolute left-[-150px] top-1/2 -translate-y-1/2 
+                  z-10 hover:scale-105 active:scale-95 transition-transform duration-200"
+        >
+          <img
+            src={require("../images/Playbutton.png")}
+            alt="Previous"
+            className="w-10 h-10 rotate-180 opacity-90 hover:opacity-100 
+                    transition filter"
+          />
+        </button>
+
+        {/* Carousel Cards */}
+        <div className="flex justify-center items-center space-x-8">
+          {filteredTopics
+            .slice(carouselIndex, carouselIndex + 3)
+            .map((topic, index) => (
+              <CarouselCard
+                key={topic.id}
+                topic={topic}
+                index={index}
+                categoryColors={categoryColors}
               />
-            </div>
-          </div>
-        </Link>
-      ))}
-    </div>
-  </div>
-);
+            ))}
+        </div>
 
+        {/* Right Arrow */}
+        <button
+          onClick={() =>
+            setCarouselIndex((prev) =>
+              prev < filteredTopics.length - 3 ? prev + 1 : 0
+            )
+          }
+          className="absolute right-[-150px] top-1/2 -translate-y-1/2 
+                  z-10 hover:scale-105 active:scale-95 transition-transform duration-200"
+        >
+          <img
+            src={require("../images/Playbutton.png")}
+            alt="Next"
+            className="w-10 h-10 opacity-80 hover:opacity-100 transition"
+          />
+        </button>
+      </div>
+      {/* Grid of smaller topics */}
+      <div className="grid grid-cols-4 gap-6">
+        {filteredTopics.slice(3).map((topic) => (
+          <SmallTopicCards
+            key={topic.id}
+            topic={topic}
+            categoryColors={categoryColors}
+          />
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default Home;

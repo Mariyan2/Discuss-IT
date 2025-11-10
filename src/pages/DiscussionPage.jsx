@@ -7,13 +7,15 @@ import ChatApp from "../components/debate_page_components/chat";
 import Handles from "../components/debate_page_components/handles";
 import DailyIframe from "@daily-co/daily-js";
 import LiveSubtitles from "../components/debate_page_components/LiveSubtitles";
+import LikeButton from "../components/debate_page_components/LikeButton";
+
 const Discussion = () => {
   const { discussionId } = useParams();  // Grab discussionId from route params
   const [discussion, setDiscussion] = useState(null);
   const [roomUrl, setRoomUrl] = useState(null);
   const loggedInUsername = localStorage.getItem("username") || "Anonymous";
 
-  
+  // Fetches discussion data, automatically joins the discussion if no opponent is present
   useEffect(() => {
     fetch(`http://localhost:8080/api/discussions/${discussionId}`)
       .then((response) => response.json())
@@ -38,6 +40,8 @@ const Discussion = () => {
       .catch(error => console.error("Error fetching discussion:", error));
   }, [discussionId, loggedInUsername]);
 
+
+  // fetches the shared Daily.co video room URL for the current discussion
   useEffect(() => {
   fetch(`http://localhost:8080/api/daily/get-room/${discussionId}`)
     .then((res) => res.text())
@@ -52,6 +56,7 @@ const Discussion = () => {
 
 const [callObject, setCallObject] = useState(null);
 
+// initializes the daily.co call object once the room URL is available
 useEffect(() => {
   if (roomUrl && !callObject) {
     const instance = DailyIframe.createCallObject({
@@ -61,6 +66,8 @@ useEffect(() => {
 
     const username = localStorage.getItem("username") || "Guest";
 
+
+    // fetches the daily.co access token,then joins the call and finally starts the live transcription
     fetch(`http://localhost:8080/api/daily/get-token/${discussionId}?user=${username}`)
       .then(res => res.text())
       .then(token => {
@@ -76,7 +83,6 @@ useEffect(() => {
       })
       .catch(err => console.error("Error fetching Daily token:", err));
   }
-
   return () => {
     if (callObject) {
       callObject.leave();
@@ -87,7 +93,7 @@ useEffect(() => {
 
 
 
-
+// handles when a user likes in a discussion
 const handleVote = (voteFor) => {
   fetch(`http://localhost:8080/api/discussions/${discussionId}/like`, {
     method: "PUT",
@@ -178,13 +184,13 @@ return (
                 <p className="text-white/60">Loading video...</p>
               )}
           <Handles />
-          <button
-            className="mt-4 w-[80%] py-2 bg-blue-500/30 border border-blue-300/40 rounded-full 
-                       hover:bg-blue-500/40 transition-all shadow-md font-semibold"
+          <LikeButton
+            color="blue"
+            glowColor="147,197,253"
             onClick={() => handleVote("creator")}
-          >
-            Like
-          </button>
+          />
+
+
         </div>
 
         {/* Right (Opponent) */}
@@ -198,13 +204,11 @@ return (
             <p className="text-white/60">Loading video...</p>
           )}
           <Handles />
-          <button
-            className="mt-4 w-[80%] py-2 bg-red-500/30 border border-red-300/40 rounded-full 
-                       hover:bg-red-500/40 transition-all shadow-md font-semibold"
-            onClick={() => handleVote("opponent")}
-          >
-            Like
-          </button>
+          <LikeButton
+          color="red"
+          glowColor="239,68,68"
+          onClick={() => handleVote("opponent")}
+        />
         </div>
 
         {/* Chat */}

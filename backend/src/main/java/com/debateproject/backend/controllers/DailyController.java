@@ -13,13 +13,12 @@ public class DailyController {
     public DailyController(DailyService dailyService) {
         this.dailyService = dailyService;
     }
-
-    // Delegates to service
+    //Creates or retrieves discussion room
     @GetMapping("/get-room/{discussionId}")
     public ResponseEntity<String> getRoom(@PathVariable String discussionId) {
         return dailyService.getRoom(discussionId);
     }
-    
+    //Generates temporary access token so a user can join daily room with admin permissions ( required for enabling captions)
     @GetMapping("/get-token/{roomName}")
     public ResponseEntity<String> getMeetingToken(
             @PathVariable String roomName,

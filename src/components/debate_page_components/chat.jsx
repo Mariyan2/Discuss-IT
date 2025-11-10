@@ -1,6 +1,6 @@
 import  { useState, useEffect, useRef } from "react";
 
-           
+//Live stream chat
 const ChatApp = ({ discussionId, chatMessages }) => {
   const [messages, setMessages] = useState(chatMessages);
   const [newMessage, setNewMessage] = useState("");
