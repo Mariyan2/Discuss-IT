@@ -2,11 +2,13 @@
 
 
 
+<h3 align="left" style="font-weight: 400; line-height: 1.6;">
+DiscussIT is a multilingual social media platform focused on creating live-streamed discussions that are translated in real time.<br><br>
+It automatically transcribes and translates live speech — allowing seamless communication across 91+ different languages.
+</h3>
 
-## 🌍 Overview
 
-**DiscussIT** is a multilingual social media platform focused on creating live-streamed discussions, that are translated in real-time. 
-It automatically **transcribes and translates live speech** — allowing seamless communication across **91** different languages.
+
 
 ---
 
