@@ -37,7 +37,8 @@ Transcriptions and translations appear smoothly beneath each participant’s vid
 <p align="center">
   <img width="90%" alt="Live Translation" src="https://github.com/user-attachments/assets/5973e999-2f57-4b3f-b910-4709bce46e00" />
   <br><br>
-  <img width="90%" alt="Caption Example" src="https://github.com/user-attachments/assets/ef8091ee-8b52-45ad-824a-047209fc633f" />
+  <img width="90%"  alt="image" src="https://github.com/user-attachments/assets/4387cd49-0c02-4b9b-9807-51b983bed66b" />
+
 </p>
 
 ---
