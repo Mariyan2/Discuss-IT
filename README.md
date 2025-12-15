@@ -105,4 +105,18 @@ Integrated with **Daily.co API**
   <img width="80%" alt="MongoDB Logo" src="https://github.com/user-attachments/assets/e83c7197-218f-4820-8868-e01879f83665" />
 </p>
 
+### 🌍 Translation  
+**LibreTranslate**
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/71346dd1-8e1b-4a0f-90d8-0ac7b6d99d01" alt="LibreTranslate Logo" width="180"/>
+</p>
+
+---
+
+### 🐳 Containerization  
+**Docker**
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e2c5bc51-f66c-4398-992e-fe5ab16c6ff2" alt="Docker Logo" width="260"/>
+</p>
