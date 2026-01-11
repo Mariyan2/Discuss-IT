@@ -7,7 +7,7 @@ It automatically transcribes and translates speech in real time — allowing sea
 
 ---
 
-## 🏠 Home Page
+##  Home Page
 
 Users can explore and join ongoing conversations based on their interests.  
 Each topic includes a title, colour-coded category, and live viewer count.
@@ -18,7 +18,7 @@ Each topic includes a title, colour-coded category, and live viewer count.
 
 ---
 
-## 🗣️ Create Your Own Room
+##  Create Your Own Room
 
 Users can start their own live sessions and assign categories such as **News**, **Gaming**, or **Culture** — making it easier for others to discover and join relevant topics.
 
@@ -28,7 +28,7 @@ Users can start their own live sessions and assign categories such as **News**, 
 
 ---
 
-## 🌐 Real-Time Captions & Translation
+##  Real Time Captions & Translation
 
 DiscussIT provides **live-translated captions** powered by a self-hosted **LibreTranslate** server, supporting **91 languages**.  
 
@@ -43,7 +43,7 @@ Transcriptions and translations appear smoothly beneath each participant’s vid
 
 ---
 
-## 💬 Interactive Stream Chat
+##  Interactive Stream Chat
 
 Viewers can send live messages during broadcasts, promoting real-time engagement and participation.
 
@@ -53,7 +53,7 @@ Viewers can send live messages during broadcasts, promoting real-time engagement
 
 ---
 
-## ❤️ Audience Reactions
+##  Audience Reactions
 
 Participants can receive live feedback from viewers through likes and reactions.  
 These contribute to the **Favourability Meter**, a visual indicator reflecting audience sentiment in real time.
@@ -66,9 +66,9 @@ These contribute to the **Favourability Meter**, a visual indicator reflecting a
 
 ---
 
-## ⚙️ Tech Stack
+##  Tech Stack
 
-### 🖥️ Frontend  
+###  Frontend  
 Built with **React** and **Tailwind CSS** for a modern, responsive, and user-friendly interface.
 
 
@@ -80,7 +80,7 @@ Built with **React** and **Tailwind CSS** for a modern, responsive, and user-fri
 
 ---
 
-### ⚙️ Backend  
+###  Backend  
 Powered by **Spring Boot** 
 
 <p align="center">
@@ -89,7 +89,7 @@ Powered by **Spring Boot**
 
 ---
 
-### 🎥 Video & Captions  
+###  Video & Captions  
 Integrated with **Daily.co API** 
 
 <p align="center">
@@ -98,14 +98,13 @@ Integrated with **Daily.co API**
 
 ---
 
-### 🗄️ Database  
+###  Database  
 **MongoDB** 
 
 <p align="center">
   <img width="80%" alt="MongoDB Logo" src="https://github.com/user-attachments/assets/e83c7197-218f-4820-8868-e01879f83665" />
 </p>
-
-### 🌍 Translation  
+###  Translation  
 **LibreTranslate**
 
 <p align="center">
@@ -114,7 +113,7 @@ Integrated with **Daily.co API**
 
 ---
 
-### 🐳 Containerization  
+###  Containerization  
 **Docker**
 
 <p align="center">
